@@ -1,38 +1,57 @@
-import { createErrorMessage, createForm } from "./components.js";
-import { boxes } from "../../data/boxesInfo.js";
-import { capitalize } from "../utils/string.js";
+import { createErrorMessage, createForm, createLoading } from "./components.js";
 import { cutterTable } from "../../data/cutter.js";
+import { createElement } from "./index.js";
+import { showForm } from "../utils/handlers.js";
+import { storage } from "../utils/storage.js";
 
-const container = document.getElementById("response");
+const container = document.querySelector("#response>div");
+const menu = document.getElementById("isbn-list");
 
-export const renderForm = ({ id, isbn, message, ...book }) => {
-  if (message) {
-    const content = createErrorMessage(isbn, message);
-    container.appendChild(content);
+export const renderAll = async () => {
+  const form = document.getElementById("search-form");
+  const nav = document.getElementById("nav-main");
+
+  const books = await storage.read();
+
+  if (books.length > 0) {
+    nav.style.display = "flex";
+    form.style.display = "none";
+    container.parentElement.style.display = "block";
   } else {
-    const content = createForm(id, isbn, fillForm(book));
-    container.appendChild(content);
+    nav.style.display = "none";
+    form.style.display = "block";
+    container.parentElement.style.display = "none";
   }
 
-  container.style.display = "block";
+  books.forEach(async (book) => {
+    renderMenu(book);
+  });
 };
 
-const fillForm = (book) => {
-  console.log(book);
-  const author = book.authors[0].split(" ");
-  const authorLastname = capitalize(author[author.length - 1]);
-  boxes[2].fields[0].content = authorLastname;
-  boxes[3].fields[0].content = book.title;
-  boxes[3].fields[1].content = book.subtitle ?? "";
-  boxes[4].fields[0].content = book.location ?? "";
-  boxes[4].fields[1].content = book.publisher ?? "";
-  boxes[4].fields[2].content = book.year ?? "";
-  boxes[5].fields[0].content = book.pageCount ?? "";
-  boxes[6].fields[0].content = book.subjects ? book.subjects.join(", ") : "";
+export const renderLoading = () => {
+  console.log(container);
+  container.appendChild(createLoading());
+  container.parentElement.style = "block";
+};
 
-  //   getCutterCode(authorLastname, book.title);
+const renderMenu = (book) => {
+  const button = createElement("button", {
+    textContent: book.isbn,
+    id: book.id,
+  });
+  button.addEventListener("click", showForm);
+  menu.appendChild(button);
+};
 
-  return boxes;
+export const renderForm = async (id) => {
+  container.innerHTML = "";
+  const books = await storage.read();
+  const book = books.find((book) => {
+    return book.id === Number(id);
+  });
+
+  const content = book.message ? createErrorMessage(book) : createForm(book);
+  container.appendChild(content);
 };
 
 const getCutterCode = (lastname, title) => {

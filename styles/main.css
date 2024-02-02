@@ -20,15 +20,21 @@
 
 #container nav {
     position: relative;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
     padding: 8px 0;
 }
 
-#container nav .submenu ul{
+#container nav .submenu div button{
+    background-color: transparent;
+}
+
+#container nav .submenu div{
     display: none;
+    flex-direction: column;
+    gap: 8px;
     position: absolute;
     z-index: 10;
     list-style: none;
@@ -41,17 +47,17 @@
     transition: all .3s;
 }
 
-#container nav .submenu:hover ul{
-    display: block;
+#container nav .submenu:hover div{
+    display: flex;
 }
 
-#container nav ul li{
+#container nav .submenu div button{
     border: 1px solid transparent;
     transition: border .3s;
     cursor: pointer;
 }
 
-#container nav ul li:hover{
+#container nav .submenu div button:hover{
     border-bottom-color: var(--color-background-dark);
 }
 
@@ -94,7 +100,8 @@
 }
 
 #container main form footer button,
-#container nav button{
+#container nav .submenu>button,
+#container nav>button{
     border-radius: 4px;
     box-shadow: 4px 4px var(--color-smoth);
     padding: 8px;
@@ -105,7 +112,8 @@
 }
 
 #container main form footer button:hover,
-#container nav button:hover{
+#container nav .submenu>button:hover,
+#container nav>button:hover{
     background-color: var(--color-background-dark);
     color: var(--color-text-light);
 }
@@ -130,6 +138,7 @@
     flex-direction: column;
     gap: 8px;
 }
+
 
 #container main #response .wrapper>.title{
     background-color: var(--color-background);

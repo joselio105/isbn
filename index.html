@@ -16,19 +16,19 @@
 <body>
     <div id="container">
         <header><h1>ISBN</h1></header>
-        <nav class="navigation">
-            <button>Nova busca</button>
+        <nav class="navigation" id="nav-main">
+            <button id="button-clean">Nova busca</button>
             <div class="submenu">
                 <button>Resultados</button>
-                <ul id="isbn-list"></ul>
+                <div id="isbn-list"></div>
             </div>
             <div class="submenu">
                 <button>Formato</button>
-                <ul>
-                    <li id="form">Formulário</li>
-                    <li id="mark">Mark</li>
-                    <li id="json">Json</li>
-                </ul>
+                <div>
+                    <button id="form">Formulário</button>
+                    <button id="mark">Mark</button>
+                    <button id="json">Json</button>
+                </div>
             </div>
         </nav>
         <main>
@@ -43,6 +43,7 @@
             </form>
             <div id="response">
                 <h2>Resultado</h2>
+                <div></div>
             </div>
         </main>
     </div>

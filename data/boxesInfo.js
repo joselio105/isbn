@@ -1,3 +1,22 @@
+import { capitalize } from "../src/utils/string.js";
+
+export const fillForm = (book) => {
+  const author = book.authors[0].split(" ");
+  const authorLastname = capitalize(author[author.length - 1]);
+  boxes[2].fields[0].content = authorLastname;
+  boxes[3].fields[0].content = book.title;
+  boxes[3].fields[1].content = book.subtitle ?? "";
+  boxes[4].fields[0].content = book.location ?? "";
+  boxes[4].fields[1].content = book.publisher ?? "";
+  boxes[4].fields[2].content = book.year ?? "";
+  boxes[5].fields[0].content = book.pageCount ?? "";
+  boxes[6].fields[0].content = book.subjects ? book.subjects.join(", ") : "";
+
+  //   getCutterCode(authorLastname, book.title);
+
+  return boxes;
+};
+
 export const boxes = [
   {
     title: "Classificação Decimal Dewey(082)",

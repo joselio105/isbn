@@ -1,10 +1,20 @@
+import { fillForm } from "../../data/boxesInfo.js";
 import { createElement } from "./index.js";
 
-export const createForm = (id, isbn, boxes) => {
+export const createLoading = () => {
+  return createElement("div", {
+    id: "loading",
+    textContent: "Carregando...",
+    class: "loading",
+  });
+};
+
+export const createForm = (book) => {
+  const { id, isbn } = book;
   const form = createElement("form", { id: `form-${id}` });
   const wrapper = createWrapper(isbn);
 
-  boxes.forEach((boxInfo) => {
+  fillForm(book).forEach((boxInfo) => {
     const box = createBox(boxInfo);
     boxInfo.fields.forEach((fieldInfo) => {
       const field = createField(fieldInfo);
@@ -18,7 +28,7 @@ export const createForm = (id, isbn, boxes) => {
   return form;
 };
 
-export const createErrorMessage = (isbn, message) => {
+export const createErrorMessage = ({ isbn, message }) => {
   const wrapper = createWrapper(isbn);
   const span = createElement("span", {
     textContent: message,
