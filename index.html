@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros | ISBN</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/vars.css" />
+    <link rel="stylesheet" href="./styles/settings.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <script src="./src/index.js"  type="module"></script>
+</head>
+<body>
+    <div id="container">
+        <header><h1>ISBN</h1></header>
+        <main>
+            <form id="search-form">
+                <div class="form-input">
+                    <label for="isbn">ISBN</label>
+                    <textarea name="isbn" id="isbn" required placeholder="Digite o(s) números(s) do ISBN da publicação"></textarea>
+                </div>
+                <footer>
+                    <button type="submit">Pesquisar</button>
+                </footer>
+            </form>
+            <div id="response">
+                <h2>Resultado</h2>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+#container{
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    background-color: var(--color-surface);
+}
+
+#container header{
+    background-color: var(--color-background);
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+#container header h1{
+    font-size: 40px;
+    font-weight: 500;
+    text-shadow: 4px 4px var(--color-smoth);
+    color: var(--color-text-dark);
+}
+
+#container main form .form-input{
+    position: relative;
+}
+
+#container main form .form-input label{
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    font-size: 12px;
+    font-weight: 300;
+    background-color: var(--color-surface);
+    padding: 0 4px;
+}
+
+#container main form .form-input textarea{
+    min-height: 160px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    outline-color: var(--color-border-dark);
+    color: var(--color-text);
+    font-weight: 400;
+}
+
+#container main form .form-input textarea::placeholder{
+    color: var(--color-text-light);    
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+}
+
+#container main form footer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#container main form footer button{
+    height: 48px;
+    border-radius: 4px;
+    box-shadow: 4px 4px var(--color-smoth);
+    padding: 0 16px;
+    margin-top: 16px;
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .3s;
+}
+
+#container main form footer button:hover{
+    background-color: var(--color-background-dark);
+}
+
+#container main #response{
+    display: none;
+    font-size: 12px;
+}
+
+#container main #response h2{
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: 12px;
+}
+
+#container main #response .wrapper{
+    padding: 0 12px;
+    border-bottom: 2px solid var(--color-border-dark);
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#container main #response .wrapper>.title{
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    font-weight: 700;
+    border-radius: 4px;
+    width: 100%;
+    padding: 8px;
+}
+
+#container main #response .wrapper .box{
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-top-width: 2px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+#container main #response .wrapper .box .title{
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    background-color: var(--color-surface);
+    font-weight: 700;
+    padding: 0 4px;
+}
+
+#container main #response .wrapper .box .box-field{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 4px auto;
+}
+
+#container main #response .wrapper .box .box-field .field-content{
+    width: 60vw;
+    border: 1px solid var(--color-border);
+    padding: 4px;
+}
+
+#container main #response .wrapper .box .box-field .field-content::placeholder{
+    font-weight: 300;
+    color: var(--color-text-light);
+}
+
+#container main #response .wrapper .error-message {
+    color: var(--color-alert);
+    margin: 12px auto;
+}
