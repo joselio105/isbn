@@ -1,4 +1,6 @@
-import { fillForm } from "../../data/boxesInfo.js";
+import { boxes } from "../../data/boxesInfo.js";
+import { themes } from "../../data/themes.js";
+import { storage } from "../utils/storage.js";
 import { createElement } from "./index.js";
 
 export const createLoading = () => {
@@ -9,15 +11,15 @@ export const createLoading = () => {
   });
 };
 
-export const createForm = (book) => {
+export const createForm = async (book) => {
   const { id, isbn } = book;
   const form = createElement("form", { id: `form-${id}` });
   const wrapper = createWrapper(isbn);
 
-  fillForm(book).forEach((boxInfo) => {
+  boxes.forEach((boxInfo) => {
     const box = createBox(boxInfo);
-    boxInfo.fields.forEach((fieldInfo) => {
-      const field = createField(fieldInfo);
+    boxInfo.fields.forEach((fieldInfo, key) => {
+      const field = createField({ fieldInfo, boxCode: boxInfo.id, key, book });
       box.appendChild(field);
     });
 
@@ -25,9 +27,30 @@ export const createForm = (book) => {
   });
 
   form.appendChild(wrapper);
+  form.appendChild(createFormFooter());
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const fields = form.querySelectorAll("input");
+    const values = Object.values(fields).map(({ id, value }) => {
+      const response = {};
+      response[id] = value;
+
+      return response;
+    });
+    await storage.update(id, values);
+  });
   return form;
 };
 
+export const createFormFooter = () => {
+  const footer = createElement("footer");
+  footer.appendChild(
+    createElement("button", { type: "submit", textContent: "Atualizar" })
+  );
+
+  return footer;
+};
 export const createErrorMessage = ({ isbn, message }) => {
   const wrapper = createWrapper(isbn);
   const span = createElement("span", {
@@ -61,31 +84,39 @@ export const createBox = (boxInfo) => {
   return box;
 };
 
-export const createField = (fieldInfo) => {
+export const createField = ({
+  fieldInfo: { label, value, ...fieldInfo },
+  boxCode,
+  key,
+  book,
+}) => {
   const field = createElement("div", { class: "box-field" });
-  const label = createElement("span", {
+  const labelTag = createElement("span", {
     class: "field-label",
-    textContent: fieldInfo.label,
+    textContent: label,
   });
 
-  const contentAttributes =
-    fieldInfo.content.length > 0
-      ? {
-          class: "field-content",
-          textContent: fieldInfo.content,
-        }
-      : {
-          class: "field-placeholder",
-          placeholder: fieldInfo.placeholder,
-        };
   const content = createElement("input", {
     class: "field-content",
-    id: fieldInfo.id,
-    value: fieldInfo.content,
-    placeholder: fieldInfo.placeholder,
+    id: `${boxCode}-${key}`,
+    value: book[boxCode][key] ?? value,
+    ...fieldInfo,
   });
 
-  field.appendChild(label);
+  field.appendChild(labelTag);
   field.appendChild(content);
+  if (fieldInfo.list) {
+    field.appendChild(createDatalist(themes, fieldInfo.list));
+  }
   return field;
+};
+
+export const createDatalist = (list, id) => {
+  const datalist = createElement("datalist", { id });
+  list.forEach((item) => {
+    const option = createElement("option", { textContent: item[1] });
+    datalist.appendChild(option);
+  });
+
+  return datalist;
 };
