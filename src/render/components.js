@@ -1,6 +1,6 @@
 import { boxes } from "../../data/boxesInfo.js";
 import { themes } from "../../data/themes.js";
-import { storage } from "../utils/storage.js";
+import { updateForm } from "../utils/handlers.js";
 import { createElement } from "./index.js";
 
 export const createLoading = () => {
@@ -13,7 +13,7 @@ export const createLoading = () => {
 
 export const createForm = async (book) => {
   const { id, isbn } = book;
-  const form = createElement("form", { id: `form-${id}` });
+  const form = createElement("form", { id });
   const wrapper = createWrapper(isbn);
 
   boxes.forEach((boxInfo) => {
@@ -29,17 +29,7 @@ export const createForm = async (book) => {
   form.appendChild(wrapper);
   form.appendChild(createFormFooter());
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const fields = form.querySelectorAll("input");
-    const values = Object.values(fields).map(({ id, value }) => {
-      const response = {};
-      response[id] = value;
-
-      return response;
-    });
-    await storage.update(id, values);
-  });
+  form.addEventListener("submit", updateForm);
   return form;
 };
 

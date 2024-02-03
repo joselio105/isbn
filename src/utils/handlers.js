@@ -68,6 +68,20 @@ const getCutterCode = (lastname, title) => {
   );
 };
 
+export const updateForm = async (event) => {
+  event.preventDefault();
+  const form = event.target;
+  const fields = form.querySelectorAll("input");
+  const values = Object.values(fields).map(({ id, value }) => {
+    const response = {};
+    response[id] = value;
+
+    return response;
+  });
+  await storage.update(form.id, values);
+  renderForm(form.id);
+};
+
 const formatLastName = (name) => {
   const nameArray = name.split(" ");
   return capitalize(nameArray[nameArray.length - 1]);

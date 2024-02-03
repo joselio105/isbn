@@ -22,7 +22,11 @@ const clean = async () => {
 };
 
 const update = async (id, content) => {
-  console.log("Função não implementada");
+  const storedContent = await read();
+  const contentKey = storedContent.findIndex((item) => item.id === id);
+  storedContent[contentKey] = content;
+
+  localStorage.setItem(key, JSON.stringify(storedContent));
 };
 
 export const storage = {
