@@ -104,7 +104,7 @@ export const createField = ({
 export const createDatalist = (list, id) => {
   const datalist = createElement("datalist", { id });
   list.forEach((item) => {
-    const option = createElement("option", { textContent: item[1] });
+    const option = createElement("option", { textContent: item.name });
     datalist.appendChild(option);
   });
 
