@@ -5,25 +5,26 @@ import {
   renderMenu,
 } from "../render/interfaces.js";
 import { getBookInfo } from "./api.js";
-import { storage } from "./storage.js";
 import { capitalize } from "./string.js";
+import { cutterTable } from "../../data/cutter.js";
 
 const input = document.getElementById("isbn");
 
-export const handleSubmit = async (event) => {
+export const findBooksByIsbn = async (event) => {
   event.preventDefault();
-  await storage.clean();
   const isbnList = input.value.split(" ");
   renderLoading();
 
   await isbnList.forEach(async (isbn, key) => {
-    getBookInfo(isbn).then(async (book) => {
-      const bookInfo = formatBookInfo(book, key, isbn.replaceAll("-", ""));
-      await storage.save(bookInfo);
-      renderMenu(bookInfo);
-    });
+    getBookInfo(isbn)
+      .then(async (book) => {
+        const bookInfo = formatBookInfo(book, key, isbn.replaceAll("-", ""));
+        renderMenu(bookInfo);
+      })
+      .finally(() => {
+        clearLoading();
+      });
   });
-  clearLoading();
 };
 
 const formatBookInfo = (
@@ -41,13 +42,14 @@ const formatBookInfo = (
   key,
   isbn
 ) => {
+  const lastname = formatLastName(authors[0]);
   const bookInfo = {
     id: key + 1,
     isbn,
     message,
-    "082": [""],
-    "090": ["", "", ""],
-    100: [formatLastName(authors[0])],
+    "082": ["", key + 1, isbn],
+    "090": ["", getCutterCode(lastname, title), ""],
+    100: [lastname],
     245: [title, subtitle ?? ""],
     260: [location ?? "", publisher ?? "", year ?? ""],
     300: [pageCount ?? ""],
@@ -59,37 +61,45 @@ const formatBookInfo = (
 };
 
 const getCutterCode = (lastname, title) => {
-  console.log(
-    cutterTable.filter(([code, start]) => {
-      //   console.log(start, lastname);
-      //   return lastname.startsWith(start);
-      return lastname[0] === start[0];
-    })
-  );
+  const matches = cutterTable.filter(([code, start]) => {
+    return lastname.substring(0, start.length) === start;
+  });
+  const code = matches[matches.length - 1][0];
+  return `${lastname[0].toUpperCase()}${code}${title[0].toLowerCase()}`;
 };
 
 export const updateForm = async (event) => {
   event.preventDefault();
   const form = event.target;
   const fields = form.querySelectorAll("input");
-  const values = Object.values(fields).map(({ id, value }) => {
-    const response = {};
-    response[id] = value;
 
-    return response;
+  const values = {};
+  Object.values(fields).forEach((field) => {
+    const [boxId, ___] = field.id.split("-");
+    values[boxId] = values[boxId] ?? [];
+
+    values[boxId].push(field.value);
   });
-  await storage.update(form.id, values);
-  renderForm(form.id);
+  values.id = values["082"][1];
+  values.isbn = values["082"][2];
+  if (values["082"][0].length > 0) {
+    values["090"][0] = values["082"][0];
+  }
+  if (values["090"][0].length > 0) {
+    values["082"][0] = values["090"][0];
+  }
+
+  renderForm(values);
 };
 
 const formatLastName = (name) => {
   const nameArray = name.split(" ");
-  return capitalize(nameArray[nameArray.length - 1]);
-};
+  const lastname = capitalize(nameArray.pop());
 
-export const showForm = (event, form) => {
-  const button = event.currentTarget;
-  const id = button.id;
+  if (nameArray.length > 1) {
+    const firstLetters = nameArray.map((name) => name[0].toUpperCase());
+    return `${lastname}, ${firstLetters.join(". ")}.`;
+  }
 
-  renderForm(id);
+  return `${lastname}, ${capitalize(nameArray[0])}`;
 };

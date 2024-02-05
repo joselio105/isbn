@@ -1,7 +1,5 @@
 import { createErrorMessage, createForm, createLoading } from "./components.js";
 import { createElement } from "./index.js";
-import { showForm } from "../utils/handlers.js";
-import { storage } from "../utils/storage.js";
 
 const container = document.querySelector("#response>div");
 const menu = document.getElementById("isbn-list");
@@ -35,17 +33,15 @@ export const renderMenu = (book) => {
     textContent: book.isbn,
     id: book.id,
   });
-  button.addEventListener("click", showForm);
+  button.addEventListener("click", () => {
+    renderForm(book);
+  });
   menu.appendChild(button);
-  renderForm(book.id);
+  renderForm(book);
 };
 
-export const renderForm = async (id) => {
+export const renderForm = async (book) => {
   container.innerHTML = "";
-  const books = await storage.read();
-  const book = books.find((book) => {
-    return book.id === Number(id);
-  });
 
   const content = book.message
     ? createErrorMessage(book)

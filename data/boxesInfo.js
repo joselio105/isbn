@@ -8,6 +8,12 @@ export const boxes = [
         placeholder: "Número de classificação por tema (veriifcar tabela)",
         list: "themes-list",
       },
+      {
+        type: "hidden",
+      },
+      {
+        type: "hidden",
+      },
     ],
   },
   {

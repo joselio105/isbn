@@ -1,5 +1,4 @@
-import { storage } from "./utils/storage.js";
-import { handleSubmit } from "./utils/handlers.js";
+import { findBooksByIsbn } from "./utils/handlers.js";
 import { resetRender } from "./render/interfaces.js";
 
 window.addEventListener("load", async () => {
@@ -9,9 +8,9 @@ window.addEventListener("load", async () => {
 
   input.value = "9788565358668 9788598486130 978-8544001516";
 
-  form.addEventListener("submit", handleSubmit);
+  form.addEventListener("submit", findBooksByIsbn);
+
   buttonClean.addEventListener("click", async () => {
-    await storage.clean();
     resetRender();
   });
 });
