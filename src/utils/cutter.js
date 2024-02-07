@@ -1,17 +1,20 @@
 import { tableCutter } from "../../data/tableCutter.js";
+import { ignoredTitleArticles } from "../../data/ignoredTitleArticles.js";
 
 export const getCutterCode = (lastname, title) => {
-  const cutterIndex = lastname.substr(0, 2);
-  console.log(cutterIndex, tableCutter);
-  const matches = tableCutter[cutterIndex].filter(([___, start]) => {
-    return lastname.substring(0, start.length) === start;
-  });
-  const code = matches[matches.length - 1][0];
-  return `${lastname[0].toUpperCase()}${code}${title[0].toLowerCase()}`;
-};
+  if (lastname) {
+    const cutterIndex = lastname.substr(0, 2);
 
-// TODO - Corrigir table cutter
-// TODO - Excluir artigos dos títulos
+    const matches = tableCutter[cutterIndex].filter(({ string }) => {
+      return lastname.substring(0, string.length) === string;
+    });
+
+    const code = matches[matches.length - 1].code;
+    return `${lastname[0].toUpperCase()}${code}${formatTitleCode(title)}`;
+  }
+
+  return "Sem autor definido para gerar o código";
+};
 
 export const parseBookFromApiToForm = (
   {
@@ -28,7 +31,15 @@ export const parseBookFromApiToForm = (
   key,
   isbn
 ) => {
+  if (message) {
+    return {
+      message,
+      isbn,
+      key,
+    };
+  }
   const lastname = formatLastName(authors[0]);
+  console.log(authors[0], lastname);
   const bookInfo = {
     id: key + 1,
     isbn,
@@ -62,18 +73,38 @@ export const parseBookFieldsToForm = (fields) => {
   if (values["090"][0].length > 0) {
     values["082"][0] = values["090"][0];
   }
+  if (values["100"][0].length > 0) {
+    values["090"][1] = getCutterCode(values[100][0], values[245][0]);
+  }
+
+  return values;
 };
 
 const formatLastName = (name) => {
-  const nameArray = name.split(" ");
-  const lastname = capitalize(nameArray.pop());
+  if (name) {
+    const nameArray = name.split(" ");
+    const lastname = capitalize(nameArray.pop());
 
-  if (nameArray.length > 1) {
-    const firstLetters = nameArray.map((name) => name[0].toUpperCase());
-    return `${lastname}, ${firstLetters.join(". ")}.`;
+    if (nameArray.length > 1) {
+      const firstLetters = nameArray.map((name) => name[0].toUpperCase());
+      return `${lastname}, ${firstLetters.join(". ")}.`;
+    }
+
+    return `${lastname}, ${capitalize(nameArray[0])}`;
   }
 
-  return `${lastname}, ${capitalize(nameArray[0])}`;
+  return "";
+};
+
+const formatTitleCode = (title) => {
+  const titleArray = title.toLowerCase().split(" ");
+  console.log(titleArray);
+
+  if (ignoredTitleArticles.pt.find((article) => article === titleArray[0])) {
+    return titleArray[1][0];
+  }
+
+  return titleArray[0][0];
 };
 
 export const capitalize = (name) => {

@@ -6,7 +6,7 @@ window.addEventListener("load", async () => {
   const buttonClean = document.getElementById("button-clean");
   const input = document.getElementById("isbn");
 
-  input.value = "9788565358668 9788598486130 978-8544001516";
+  // input.value = "9788565358668 9788598486130 978-8544001516";
 
   form.addEventListener("submit", findBooksByIsbn);
 

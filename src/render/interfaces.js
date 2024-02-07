@@ -20,8 +20,10 @@ export const renderLoading = () => {
 
 export const clearLoading = () => {
   const loading = document.getElementById("loading");
-  const container = loading.parentElement;
-  container.removeChild(loading);
+  if (loading) {
+    const container = loading.parentElement;
+    container.removeChild(loading);
+  }
 };
 
 export const renderMenu = (book) => {

@@ -13,10 +13,10 @@ export const findBooksByIsbn = async (event) => {
   event.preventDefault();
   const isbnList = input.value.split(" ");
   renderLoading();
-
   await isbnList.forEach(async (isbn, key) => {
     getBookInfo(isbn)
       .then(async (book) => {
+        console.log(book);
         const bookInfo = parseBookFromApiToForm(
           book,
           key,
@@ -36,6 +36,5 @@ export const updateForm = async (event) => {
   const fields = form.querySelectorAll("input");
 
   const values = parseBookFieldsToForm(fields);
-
   renderForm(values);
 };
