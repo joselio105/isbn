@@ -1,6 +1,6 @@
 import { boxes } from "../../data/boxesInfo.js";
 import { themes } from "../../data/themes.js";
-import { updateForm } from "../utils/handlers.js";
+import { copyContent, updateForm } from "../utils/handlers.js";
 import { createElement } from "./index.js";
 
 export const createLoading = () => {
@@ -98,6 +98,10 @@ export const createField = ({
   if (fieldInfo.list) {
     field.appendChild(createDatalist(themes, fieldInfo.list));
   }
+  if (fieldInfo.type !== "hidden") {
+    field.appendChild(createButtonCopy());
+  }
+
   return field;
 };
 
@@ -109,4 +113,15 @@ export const createDatalist = (list, id) => {
   });
 
   return datalist;
+};
+
+export const createButtonCopy = () => {
+  const button = createElement("button", {
+    textContent: "copiar",
+    class: "button-copy",
+  });
+
+  button.addEventListener("click", copyContent);
+
+  return button;
 };

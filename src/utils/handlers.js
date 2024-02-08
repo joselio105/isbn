@@ -16,7 +16,6 @@ export const findBooksByIsbn = async (event) => {
   await isbnList.forEach(async (isbn, key) => {
     getBookInfo(isbn)
       .then(async (book) => {
-        console.log(book);
         const bookInfo = parseBookFromApiToForm(
           book,
           key,
@@ -37,4 +36,16 @@ export const updateForm = async (event) => {
 
   const values = parseBookFieldsToForm(fields);
   renderForm(values);
+};
+
+export const copyContent = async (event) => {
+  const button = event.currentTarget;
+  const background = button.style;
+  const fieldValue = button.parentElement.querySelector("input").value;
+
+  console.log(background);
+  await navigator.clipboard.writeText(fieldValue);
+  setTimeout(() => {
+    button.innerText = background;
+  }, 1000);
 };

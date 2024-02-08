@@ -39,7 +39,7 @@ export const parseBookFromApiToForm = (
     };
   }
   const lastname = formatLastName(authors[0]);
-  console.log(authors[0], lastname);
+
   const bookInfo = {
     id: key + 1,
     isbn,
@@ -98,7 +98,6 @@ const formatLastName = (name) => {
 
 const formatTitleCode = (title) => {
   const titleArray = title.toLowerCase().split(" ");
-  console.log(titleArray);
 
   if (ignoredTitleArticles.pt.find((article) => article === titleArray[0])) {
     return titleArray[1][0];

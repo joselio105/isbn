@@ -101,11 +101,12 @@
 
 #container main form footer button,
 #container nav .submenu>button,
-#container nav>button{
+#container nav>button,
+#container main #response .wrapper .box .box-field .button-copy{
     border-radius: 4px;
     box-shadow: 4px 4px var(--color-smoth);
     padding: 8px;
-    margin-top: 16px;
+    /* margin-top: 16px; */
     background-color: var(--color-background);
     color: var(--color-text-dark);
     transition: color .3s;
@@ -113,7 +114,8 @@
 
 #container main form footer button:hover,
 #container nav .submenu>button:hover,
-#container nav>button:hover{
+#container nav>button:hover,
+#container main #response .wrapper .box .box-field .button-copy:hover{
     background-color: var(--color-background-dark);
     color: var(--color-text-light);
 }
