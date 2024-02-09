@@ -1,46 +1,98 @@
-import { createErrorMessage, createForm } from "./components.js";
-import { boxes } from "../../data/boxesInfo.js";
-import { capitalize } from "../utils/string.js";
-import { cutterTable } from "../../data/cutter.js";
+import { getCutterCode } from "../utils/cutter.js";
+import { copyContent } from "../utils/handlers.js";
+import { createErrorMessage, createLoading } from "./components.js";
+import { createElement } from "./index.js";
 
-const container = document.getElementById("response");
+const container = document.querySelector("#response>div");
+const menu = document.getElementById("isbn-list");
+const formSearch = document.getElementById("search-form");
+const formResponse = document.getElementById("form-result");
+const titleResponse = document.getElementById("title-result");
+const fieldsResponse = formResponse.querySelectorAll("input");
+const nav = document.getElementById("nav-main");
+const marcCode = document.querySelector("#marc-code code");
 
-export const renderForm = ({ id, isbn, message, ...book }) => {
-  if (message) {
-    const content = createErrorMessage(isbn, message);
-    container.appendChild(content);
-  } else {
-    const content = createForm(id, isbn, fillForm(book));
-    container.appendChild(content);
+export const resetRender = () => {
+  localStorage.clear();
+  nav.style.display = "none";
+  formSearch.style.display = "block";
+  container.parentElement.style.display = "none";
+  menu.innerHTML = "";
+};
+
+export const renderLoading = () => {
+  container.parentElement.style.display = "block";
+  container.parentElement.appendChild(createLoading());
+};
+
+export const clearLoading = () => {
+  const loading = document.getElementById("loading");
+  if (loading) {
+    const container = loading.parentElement;
+    container.removeChild(loading);
   }
-
-  container.style.display = "block";
 };
 
-const fillForm = (book) => {
-  console.log(book);
-  const author = book.authors[0].split(" ");
-  const authorLastname = capitalize(author[author.length - 1]);
-  boxes[2].fields[0].content = authorLastname;
-  boxes[3].fields[0].content = book.title;
-  boxes[3].fields[1].content = book.subtitle ?? "";
-  boxes[4].fields[0].content = book.location ?? "";
-  boxes[4].fields[1].content = book.publisher ?? "";
-  boxes[4].fields[2].content = book.year ?? "";
-  boxes[5].fields[0].content = book.pageCount ?? "";
-  boxes[6].fields[0].content = book.subjects ? book.subjects.join(", ") : "";
+export const renderMenu = (isbn) => {
+  nav.style.display = "flex";
+  formSearch.style.display = "none";
+  container.parentElement.style.display = "block";
 
-  //   getCutterCode(authorLastname, book.title);
-
-  return boxes;
+  const button = createElement("button", {
+    textContent: isbn,
+    id: isbn,
+  });
+  menu.appendChild(button);
 };
 
-const getCutterCode = (lastname, title) => {
-  console.log(
-    cutterTable.filter(([code, start]) => {
-      //   console.log(start, lastname);
-      //   return lastname.startsWith(start);
-      return lastname[0] === start[0];
-    })
-  );
+export const renderForm = async (book) => {
+  const bookInfo = localStorage.getItem(book.isbn)
+    ? JSON.parse(localStorage.getItem(book.isbn))
+    : book;
+  bookInfo.message ? renderErrorMessage(bookInfo) : fillFormResponse(bookInfo);
+};
+
+const fillFormResponse = (book) => {
+  formResponse.style.display = "flex";
+  titleResponse.innerText = `ISBN: ${book.isbn}`;
+
+  Object.values(fieldsResponse).forEach((field) => {
+    const button = field.parentElement.querySelector("button");
+
+    const [boxId, fieldId] = field.id.split("-");
+    const content = book[boxId][fieldId];
+    field.value = content;
+
+    field.addEventListener("change", () => {
+      if (button) {
+        button.disabled = field.value === 0;
+      }
+    });
+
+    field.addEventListener("keyup", () => {
+      if (button) {
+        button.disabled = field.value === 0;
+      }
+    });
+
+    if (button) {
+      button.addEventListener("click", copyContent);
+      button.disabled = content.length === 0;
+    }
+  });
+};
+
+const renderErrorMessage = (book) => {
+  formResponse.style.display = "none";
+  const message = createErrorMessage(book);
+  message.style.display = "flex";
+  container.appendChild(message);
+};
+
+export const renderMarcCode = (book) => {
+  const bookInfo = localStorage.getItem(book.isbn)
+    ? JSON.parse(localStorage.getItem(book.isbn))
+    : book;
+  marcCode.innerHTML = "";
+  marcCode.innerText = JSON.stringify(bookInfo);
 };

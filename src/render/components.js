@@ -1,13 +1,25 @@
+import { boxes } from "../../data/boxesInfo.js";
+import { themes } from "../../data/themes.js";
+import { copyContent, updateForm } from "../utils/handlers.js";
 import { createElement } from "./index.js";
 
-export const createForm = (id, isbn, boxes) => {
-  const form = createElement("form", { id: `form-${id}` });
+export const createLoading = () => {
+  return createElement("div", {
+    id: "loading",
+    textContent: "Carregando...",
+    class: "loading",
+  });
+};
+
+export const createForm = async (book) => {
+  const { id, isbn } = book;
+  const form = createElement("form", { id });
   const wrapper = createWrapper(isbn);
 
   boxes.forEach((boxInfo) => {
     const box = createBox(boxInfo);
-    boxInfo.fields.forEach((fieldInfo) => {
-      const field = createField(fieldInfo);
+    boxInfo.fields.forEach((fieldInfo, key) => {
+      const field = createField({ fieldInfo, boxCode: boxInfo.id, key, book });
       box.appendChild(field);
     });
 
@@ -15,10 +27,21 @@ export const createForm = (id, isbn, boxes) => {
   });
 
   form.appendChild(wrapper);
+  form.appendChild(createFormFooter());
+
+  form.addEventListener("submit", updateForm);
   return form;
 };
 
-export const createErrorMessage = (isbn, message) => {
+export const createFormFooter = () => {
+  const footer = createElement("footer");
+  footer.appendChild(
+    createElement("button", { type: "submit", textContent: "Atualizar" })
+  );
+
+  return footer;
+};
+export const createErrorMessage = ({ isbn, message }) => {
   const wrapper = createWrapper(isbn);
   const span = createElement("span", {
     textContent: message,
@@ -30,9 +53,11 @@ export const createErrorMessage = (isbn, message) => {
 };
 
 export const createWrapper = (isbn) => {
-  const wrapper = createElement("div", { class: "wrapper" });
+  const wrapper = createElement("div", {
+    class: "wrapper",
+  });
   const title = createElement("strong", {
-    textContent: isbn,
+    textContent: `ISBN: ${isbn}`,
     class: "title",
   });
 
@@ -51,31 +76,54 @@ export const createBox = (boxInfo) => {
   return box;
 };
 
-export const createField = (fieldInfo) => {
+export const createField = ({
+  fieldInfo: { label, value, ...fieldInfo },
+  boxCode,
+  key,
+  book,
+}) => {
   const field = createElement("div", { class: "box-field" });
-  const label = createElement("span", {
+  const labelTag = createElement("span", {
     class: "field-label",
-    textContent: fieldInfo.label,
+    textContent: label,
   });
 
-  const contentAttributes =
-    fieldInfo.content.length > 0
-      ? {
-          class: "field-content",
-          textContent: fieldInfo.content,
-        }
-      : {
-          class: "field-placeholder",
-          placeholder: fieldInfo.placeholder,
-        };
   const content = createElement("input", {
     class: "field-content",
-    id: fieldInfo.id,
-    value: fieldInfo.content,
-    placeholder: fieldInfo.placeholder,
+    id: `${boxCode}-${key}`,
+    value: book[boxCode][key] ?? value,
+    ...fieldInfo,
   });
 
-  field.appendChild(label);
+  field.appendChild(labelTag);
   field.appendChild(content);
+  if (fieldInfo.list) {
+    field.appendChild(createDatalist(themes, fieldInfo.list));
+  }
+  if (fieldInfo.type !== "hidden") {
+    field.appendChild(createButtonCopy());
+  }
+
   return field;
+};
+
+export const createDatalist = (list, id) => {
+  const datalist = createElement("datalist", { id });
+  list.forEach((item) => {
+    const option = createElement("option", { textContent: item.name });
+    datalist.appendChild(option);
+  });
+
+  return datalist;
+};
+
+export const createButtonCopy = () => {
+  const button = createElement("button", {
+    textContent: "copiar",
+    class: "button-copy",
+  });
+
+  button.addEventListener("click", copyContent);
+
+  return button;
 };
