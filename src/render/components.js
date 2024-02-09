@@ -53,9 +53,11 @@ export const createErrorMessage = ({ isbn, message }) => {
 };
 
 export const createWrapper = (isbn) => {
-  const wrapper = createElement("div", { class: "wrapper" });
+  const wrapper = createElement("div", {
+    class: "wrapper",
+  });
   const title = createElement("strong", {
-    textContent: isbn,
+    textContent: `ISBN: ${isbn}`,
     class: "title",
   });
 

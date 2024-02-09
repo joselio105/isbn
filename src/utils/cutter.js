@@ -4,13 +4,15 @@ import { ignoredTitleArticles } from "../../data/ignoredTitleArticles.js";
 export const getCutterCode = (lastname, title) => {
   if (lastname) {
     const cutterIndex = lastname.substr(0, 2);
+    if (tableCutter[cutterIndex]) {
+      const matches = tableCutter[cutterIndex].filter(({ string }) => {
+        return lastname.substring(0, string.length) === string;
+      });
 
-    const matches = tableCutter[cutterIndex].filter(({ string }) => {
-      return lastname.substring(0, string.length) === string;
-    });
-
-    const code = matches[matches.length - 1].code;
-    return `${lastname[0].toUpperCase()}${code}${formatTitleCode(title)}`;
+      const code = matches[matches.length - 1].code;
+      return `${lastname[0].toUpperCase()}${code}${formatTitleCode(title)}`;
+    }
+    return "???????";
   }
 
   return "Sem autor definido para gerar o código";

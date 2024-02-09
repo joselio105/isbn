@@ -102,7 +102,8 @@
 #container main form footer button,
 #container nav .submenu>button,
 #container nav>button,
-#container main #response .wrapper .box .box-field .button-copy{
+#container main #response .wrapper .box .box-field .button-copy,
+#container main #response pre button{
     border-radius: 4px;
     box-shadow: 4px 4px var(--color-smoth);
     padding: 8px;
@@ -115,9 +116,18 @@
 #container main form footer button:hover,
 #container nav .submenu>button:hover,
 #container nav>button:hover,
-#container main #response .wrapper .box .box-field .button-copy:hover{
+#container main #response .wrapper .box .box-field .button-copy:hover,
+#container main #response pre button:hover{
     background-color: var(--color-background-dark);
     color: var(--color-text-light);
+}
+
+#container main #response .wrapper .box .box-field .button-copy:disabled,
+#container main #response .wrapper .box .box-field .button-copy:hover:disabled,
+#container main #response pre button:disabled,
+#container main #response pre button:hover:disabled{
+    background-color: var(--color-text-light);
+    color: var(--color-text);
 }
 
 #container main #response{
@@ -136,7 +146,7 @@
     padding: 0 12px;
     border-bottom: 2px solid var(--color-border-dark);
     margin-bottom: 16px;
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 8px;
 }
@@ -190,4 +200,23 @@
 #container main #response .wrapper .error-message {
     color: var(--color-alert);
     margin: 12px auto;
+}
+
+#container main #response #marc-code{
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+}
+
+#container main #response #marc-code code{
+    color: var(--color-background-dark);
+    flex-grow: 1;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 12px;
+    max-width: 100%;
+    overflow-x: scroll;
 }
