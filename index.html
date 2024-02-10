@@ -22,6 +22,10 @@
                 <button>Resultados</button>
                 <div id="isbn-list"></div>
             </div>
+            <!-- <label>
+                <input type="checkbox" id="is-marc" />
+                Marc
+            </label> -->
             <div class="submenu">
                 <button>Formato</button>
                 <div>
@@ -42,9 +46,40 @@
             </form>
             <div id="response">
                 <h2>Resultado</h2>
-                <div>
-                    <form id="form-result" class="wrapper">
-                        <strong id="title-result" class="title"></strong>
+                
+                <div class="wrapper">
+                    <strong id="title-result" class="title"></strong>
+                    <div id="marc-code">
+                        <pre>
+                            <code>
+LÍDER *****cam##22*****7a#4500 LIVRO
+001 <número de controle>
+003 <identificador do número de controle>
+005 19921113071152.5
+008 870102s1962####at############000#0#eng#d
+040 ## $a <código da instituiçãi> $c <código da instituição>
+100 1# $a Kelleher, James M.
+245 10 $a Roman fever : $b a story of the struggle by the Catholic people of New South Wales to remedy the injustice caused by the Education Acts of 1866 and 1880--an observer's opinion of the causes which so far have rendered that struggle in vain / $c by James M. Kelleher.
+260 ## $a Surrey Hills, N.S.W. : $b Catholic Press Newspaper Co., $c [1962?]
+300 ## $a 139 p. ; $c 16 cm
+
+LÍDER *****nmm##22*****7a#4500 ARQUIVO DE COMPUTADOR
+001 <número de controle>
+003 <identificador do número de controle>
+005 19930729093320.6
+008 930729s1989####azu####|###b|#####0#eng#d
+040 ## $a <código da instituição> $c <código da instituição>
+245 00 $a PC nations $h [recurso eletrônico] : $b flags and national anthems of 175
+countries.
+256 ## $a Programa eletrônico.
+260 ## $a Tempe, Ariz. : $b PC Globe, $c c1989.
+300 ## $a 2 discos e computador : $b color. ; $c 5 1/4 pol.
+538 ## $a Exigência do sistema: IBM/Tandy; EGA or VGA monitor somente.
+                            </code>
+                        </pre>
+                        <button class="button-copy">copiar</button>
+                    </div>
+                    <form id="form-result">
                         <div class="box">
                             <strong class="title">Classificação Decimal Dewey(082)</strong>
                             <div class="box-field">
@@ -177,35 +212,8 @@
                             <button type="submit">Atualizar</button>
                         </footer>
                     </form>
+                    <div id="error-message" class="error-message"></div>
                 </div>
-                <pre id="marc-code">
-                    <code>
-LÍDER *****cam##22*****7a#4500 LIVRO
-001 <número de controle>
-003 <identificador do número de controle>
-005 19921113071152.5
-008 870102s1962####at############000#0#eng#d
-040 ## $a <código da instituiçãi> $c <código da instituição>
-100 1# $a Kelleher, James M.
-245 10 $a Roman fever : $b a story of the struggle by the Catholic people of New South Wales to remedy the injustice caused by the Education Acts of 1866 and 1880--an observer's opinion of the causes which so far have rendered that struggle in vain / $c by James M. Kelleher.
-260 ## $a Surrey Hills, N.S.W. : $b Catholic Press Newspaper Co., $c [1962?]
-300 ## $a 139 p. ; $c 16 cm
-
-LÍDER *****nmm##22*****7a#4500 ARQUIVO DE COMPUTADOR
-001 <número de controle>
-003 <identificador do número de controle>
-005 19930729093320.6
-008 930729s1989####azu####|###b|#####0#eng#d
-040 ## $a <código da instituição> $c <código da instituição>
-245 00 $a PC nations $h [recurso eletrônico] : $b flags and national anthems of 175
-countries.
-256 ## $a Programa eletrônico.
-260 ## $a Tempe, Ariz. : $b PC Globe, $c c1989.
-300 ## $a 2 discos e computador : $b color. ; $c 5 1/4 pol.
-538 ## $a Exigência do sistema: IBM/Tandy; EGA or VGA monitor somente.
-                    </code>
-                    <button class="button-copy">copiar</button>
-                </pre>
             </div>
         </main>
     </div>
