@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,37 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./styles/vars.css" />
     <link rel="stylesheet" href="./styles/settings.css" />
     <link rel="stylesheet" href="./styles/main.css" />
-    <script src="./src/index.js"  type="module"></script>
+    <script src="./src/index.js" type="module"></script>
 </head>
+
 <body>
     <div id="container">
-        <header><h1>ISBN</h1></header>
+        <header>
+            <h1>ISBN</h1>
+        </header>
         <nav class="navigation" id="nav-main">
             <button id="button-clean">Nova busca</button>
             <div class="submenu">
                 <button>Resultados</button>
                 <div id="isbn-list"></div>
             </div>
-            <!-- <label>
+            <label class="toggle-button">
                 <input type="checkbox" id="is-marc" />
-                Marc
-            </label> -->
-            <div class="submenu">
-                <button>Formato</button>
-                <div>
-                    <button id="form">Formulário</button>
-                    <button id="marc">Marc</button>
-                </div>
-            </div>
+                <div class="ball"></div>
+                <span>Formulário</span>
+            </label>
         </nav>
         <main>
             <form id="search-form">
                 <div class="form-input">
                     <label for="isbn">ISBN</label>
-                    <textarea name="isbn" id="isbn" required placeholder="Digite o(s) números(s) do ISBN da publicação"></textarea>
+                    <textarea name="isbn" id="isbn" required
+                        placeholder="Digite o(s) números(s) do ISBN da publicação"></textarea>
                 </div>
                 <footer>
                     <button type="submit">Pesquisar</button>
@@ -46,7 +46,7 @@
             </form>
             <div id="response">
                 <h2>Resultado</h2>
-                
+
                 <div class="wrapper">
                     <strong id="title-result" class="title"></strong>
                     <div id="marc-code">
@@ -84,16 +84,13 @@ countries.
                             <strong class="title">Classificação Decimal Dewey(082)</strong>
                             <div class="box-field">
                                 <span class="field-label">Número de Classificação</span>
-                                <input 
-                                    class="field-content" 
-                                    id="082-0"
-                                    placeholder="Número de classificação por tema (veriifcar tabela)" 
-                                    list="themes-list"
-                                >
+                                <input class="field-content" id="082-0"
+                                    placeholder="Número de classificação por tema (veriifcar tabela)"
+                                    list="themes-list">
                                 <datalist id="themes-list">
                                     <option>Bíblia</option>
                                     <option>Bíblia - Velho testamento</option>
-                                    <option>Bíblia -  Novo testamento</option>
+                                    <option>Bíblia - Novo testamento</option>
                                     <option>Doutrinas</option>
                                     <option>Vida cristã e família</option>
                                     <option>Igreja local e aconselhamento</option>
@@ -102,7 +99,7 @@ countries.
                                     <option>Criação de filhos, crianças e adolecentes</option>
                                 </datalist>
                                 <button class="button-copy">copiar</button>
-                            </div>                            
+                            </div>
                             <div class="box-field">
                                 <span class="field-label"></span>
                                 <input class="field-content" id="082-1" type="hidden">
@@ -116,16 +113,13 @@ countries.
                             <strong class="title">Número de chamada - Localização(090)</strong>
                             <div class="box-field">
                                 <span class="field-label">Classificação</span>
-                                <input 
-                                    class="field-content" 
-                                    id="090-0"
-                                    placeholder="Número de classificação por tema (veriifcar tabela)" 
-                                    list="themes-list"
-                                >
+                                <input class="field-content" id="090-0"
+                                    placeholder="Número de classificação por tema (veriifcar tabela)"
+                                    list="themes-list">
                                 <datalist id="themes-list">
                                     <option>Bíblia</option>
                                     <option>Bíblia - Velho testamento</option>
-                                    <option>Bíblia -  Novo testamento</option>
+                                    <option>Bíblia - Novo testamento</option>
                                     <option>Doutrinas</option>
                                     <option>Vida cristã e família</option>
                                     <option>Igreja local e aconselhamento</option>
@@ -136,15 +130,15 @@ countries.
                                 <button class="button-copy">copiar</button>
                             </div>
                             <div class="box-field">
-                                    <span class="field-label">Código do autor</span>
-                                    <input class="field-content" id="090-1" placeholder="Código segundo a tabela Cutter(?)">
-                                    <button class="button-copy">copiar</button>
-                                </div>
-                                <div class="box-field">
-                                    <span class="field-label">Edição - volume</span>
-                                    <input class="field-content" id="090-2" placeholder="Edição e volume...">
-                                    <button class="button-copy">copiar</button>
-                                </div>
+                                <span class="field-label">Código do autor</span>
+                                <input class="field-content" id="090-1" placeholder="Código segundo a tabela Cutter(?)">
+                                <button class="button-copy">copiar</button>
+                            </div>
+                            <div class="box-field">
+                                <span class="field-label">Edição - volume</span>
+                                <input class="field-content" id="090-2" placeholder="Edição e volume...">
+                                <button class="button-copy">copiar</button>
+                            </div>
                         </div>
                         <div class="box">
                             <strong class="title">Autor - Nome pessoal(100)</strong>
@@ -158,8 +152,10 @@ countries.
                             <strong class="title">Título principal(245)</strong>
                             <div class="box-field">
                                 <span class="field-label">Título principal</span>
-                                <input class="field-content" id="245-0"Manual do arquiteto descalço" placeholder="Título do livro">
-                                <button class="button-copy">copiar</button></div>
+                                <input class="field-content" id="245-0" Manual do arquiteto descalço"
+                                    placeholder="Título do livro">
+                                <button class="button-copy">copiar</button>
+                            </div>
                             <div class="box-field">
                                 <span class="field-label">Títulos paralelos/subtítulos</span>
                                 <input class="field-content" id="245-1" placeholder="Subítulo do livro">
@@ -188,7 +184,8 @@ countries.
                             <strong class="title">Descrição física(300)</strong>
                             <div class="box-field">
                                 <span class="field-label">Número de volumes e/ou paginação</span>
-                                <input class="field-content" id="300-0" placeholder="Número de páginas..." type="number" step="1">
+                                <input class="field-content" id="300-0" placeholder="Número de páginas..." type="number"
+                                    step="1">
                                 <button class="button-copy">copiar</button>
                             </div>
                         </div>
@@ -204,7 +201,8 @@ countries.
                             <strong class="title">Exemplares Automáticos</strong>
                             <div class="box-field">
                                 <span class="field-label">Número de Exemplares</span>
-                                <input class="field-content" id="999-0" placeholder="Número de exemplares..." type="number" min="1" step="1">
+                                <input class="field-content" id="999-0" placeholder="Número de exemplares..."
+                                    type="number" min="1" step="1">
                                 <button class="button-copy">copiar</button>
                             </div>
                         </div>
@@ -218,4 +216,5 @@ countries.
         </main>
     </div>
 </body>
+
 </html>

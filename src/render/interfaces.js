@@ -17,6 +17,7 @@ export const resetRender = () => {
   localStorage.clear();
   nav.style.display = "none";
   formSearch.style.display = "block";
+  responseWrapper.parentElement.style.display = "none";
   responseWrapper.style.display = "none";
   menu.innerHTML = "";
 };

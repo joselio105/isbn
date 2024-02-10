@@ -25,6 +25,7 @@
     justify-content: flex-end;
     gap: 8px;
     padding: 8px 0;
+    font-size: 12px;
 }
 
 #container nav .submenu div button{
@@ -59,6 +60,41 @@
 
 #container nav .submenu div button:hover{
     border-bottom-color: var(--color-background-dark);
+}
+
+#container nav .toggle-button{
+    position: relative;
+    width: 136px;
+    height: 36px;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    padding: 2px 4px 2px 60px;
+}
+
+#container nav .toggle-button .ball{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-background);
+    box-shadow: 4px 4px var(--color-smoth);
+    transition: transform .3s;
+}
+
+#container nav .toggle-button input:checked+.ball{
+    transform: translateX(20px);
+}
+
+#container nav .toggle-button::before{
+    content: '';
+}
+
+#container nav .toggle-button input{
+    display: none;
 }
 
 #container main form .form-input{
