@@ -41,15 +41,14 @@ export const createFormFooter = () => {
 
   return footer;
 };
-export const createErrorMessage = ({ isbn, message }) => {
-  const wrapper = createWrapper(isbn);
+export const createErrorMessage = ({ message }) => {
   const span = createElement("span", {
     textContent: message,
     class: "error-message",
+    id: "error-message",
   });
 
-  wrapper.appendChild(span);
-  return wrapper;
+  return span;
 };
 
 export const createWrapper = (isbn) => {

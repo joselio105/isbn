@@ -1,9 +1,8 @@
 import {
   clearLoading,
-  renderForm,
   renderLoading,
-  renderMarcCode,
   renderMenu,
+  renderResponse,
 } from "../render/interfaces.js";
 import { getBookInfo } from "./api.js";
 import { parseBookFieldsToForm, parseBookFromApiToForm } from "./cutter.js";
@@ -16,7 +15,7 @@ export const findBooksByIsbn = async (event) => {
   const isbnList = inputSearch.value.split(" ");
   renderLoading();
   await isbnList.forEach(async (isbn, key) => {
-    renderMenu(isbn);
+    renderMenu(isbn.replaceAll("-", ""));
     getBookInfo(isbn)
       .then(async (book) => {
         const bookInfo = parseBookFromApiToForm(
@@ -25,24 +24,31 @@ export const findBooksByIsbn = async (event) => {
           isbn.replaceAll("-", "")
         );
 
-        Object.values(buttonsIsbn).forEach((button) => {
-          button.addEventListener("click", (event) => {
-            if (event.currentTarget.id === isbn) {
-              renderForm(bookInfo);
-              renderMarcCode(bookInfo);
-            }
-          });
-        });
-
-        localStorage.setItem(isbn, JSON.stringify(bookInfo));
-        if (key === isbnList.length - 1) {
-          renderForm(bookInfo);
-          renderMarcCode(bookInfo);
-        }
+        localStorage.setItem(bookInfo.isbn, JSON.stringify(bookInfo));
+        setButtonsClickEvent(bookInfo);
+        fillFormWithLastBook(key, bookInfo);
       })
       .finally(() => {
         clearLoading();
       });
+  });
+};
+
+const fillFormWithLastBook = (key, bookInfo) => {
+  if (key === 0) {
+    localStorage.setItem("currentId", bookInfo.isbn);
+    renderResponse(bookInfo);
+  }
+};
+
+export const setButtonsClickEvent = (bookInfo) => {
+  Object.values(buttonsIsbn).forEach((button) => {
+    button.addEventListener("click", (event) => {
+      if (event.currentTarget.id === bookInfo.isbn) {
+        localStorage.setItem("currentId", bookInfo.isbn);
+        renderResponse(bookInfo);
+      }
+    });
   });
 };
 
@@ -59,10 +65,19 @@ export const updateForm = async (event) => {
 export const copyContent = async (event) => {
   const button = event.currentTarget;
   const text = button.innerText;
-  const fieldValue = button.parentElement.querySelector("input").value;
+  const fieldValue = button.parentElement.querySelector("input");
+  const codeValue = button.parentElement.querySelector("pre code");
 
   button.innerText = "Copiando...";
-  await navigator.clipboard.writeText(fieldValue);
+
+  if (fieldValue) {
+    await navigator.clipboard.writeText(fieldValue.value);
+  }
+
+  if (codeValue) {
+    await navigator.clipboard.writeText(codeValue.innerText);
+  }
+
   setTimeout(() => {
     button.innerText = text;
   }, 1000);

@@ -1,28 +1,29 @@
-import { getCutterCode } from "../utils/cutter.js";
 import { copyContent } from "../utils/handlers.js";
 import { createErrorMessage, createLoading } from "./components.js";
 import { createElement } from "./index.js";
 
-const container = document.querySelector("#response>div");
 const menu = document.getElementById("isbn-list");
-const formSearch = document.getElementById("search-form");
 const formResponse = document.getElementById("form-result");
+const formSearch = document.getElementById("search-form");
+const responseWrapper = formResponse.parentElement;
 const titleResponse = document.getElementById("title-result");
 const fieldsResponse = formResponse.querySelectorAll("input");
 const nav = document.getElementById("nav-main");
 const marcCode = document.querySelector("#marc-code code");
+const responseMarcCode = document.querySelector("#marc-code");
+const messageElement = document.getElementById("error-message");
 
 export const resetRender = () => {
   localStorage.clear();
   nav.style.display = "none";
   formSearch.style.display = "block";
-  container.parentElement.style.display = "none";
+  responseWrapper.style.display = "none";
   menu.innerHTML = "";
 };
 
 export const renderLoading = () => {
-  container.parentElement.style.display = "block";
-  container.parentElement.appendChild(createLoading());
+  responseWrapper.style.display = "block";
+  responseWrapper.appendChild(createLoading());
 };
 
 export const clearLoading = () => {
@@ -35,8 +36,6 @@ export const clearLoading = () => {
 
 export const renderMenu = (isbn) => {
   nav.style.display = "flex";
-  formSearch.style.display = "none";
-  container.parentElement.style.display = "block";
 
   const button = createElement("button", {
     textContent: isbn,
@@ -45,16 +44,28 @@ export const renderMenu = (isbn) => {
   menu.appendChild(button);
 };
 
-export const renderForm = async (book) => {
-  const bookInfo = localStorage.getItem(book.isbn)
-    ? JSON.parse(localStorage.getItem(book.isbn))
-    : book;
-  bookInfo.message ? renderErrorMessage(bookInfo) : fillFormResponse(bookInfo);
+export const renderResponse = () => {
+  responseWrapper.parentElement.style.display = "block";
+  responseWrapper.style.display = "flex";
+  formSearch.style.display = "none";
+
+  const isMarcCode = localStorage.getItem("isMarkView") ?? false;
+  const currentId = localStorage.getItem("currentId");
+  const bookInfo = JSON.parse(localStorage.getItem(currentId));
+
+  titleResponse.innerText = `ISBN: ${bookInfo.isbn}`;
+
+  bookInfo.message
+    ? renderErrorMessage(bookInfo)
+    : isMarcCode
+    ? fillMarcResponse(bookInfo)
+    : fillFormResponse(bookInfo);
 };
 
 const fillFormResponse = (book) => {
-  formResponse.style.display = "flex";
-  titleResponse.innerText = `ISBN: ${book.isbn}`;
+  formResponse.style.display = "block";
+  responseMarcCode.style.display = "none";
+  messageElement.innerHTML = "";
 
   Object.values(fieldsResponse).forEach((field) => {
     const button = field.parentElement.querySelector("button");
@@ -84,15 +95,23 @@ const fillFormResponse = (book) => {
 
 const renderErrorMessage = (book) => {
   formResponse.style.display = "none";
-  const message = createErrorMessage(book);
-  message.style.display = "flex";
-  container.appendChild(message);
+  responseMarcCode.style.display = "none";
+
+  if (messageElement) {
+    messageElement.innerText = book.message;
+  } else {
+    const message = createErrorMessage(book);
+    message.style.display = "flex";
+    responseWrapper.appendChild(message);
+  }
 };
 
-export const renderMarcCode = (book) => {
-  const bookInfo = localStorage.getItem(book.isbn)
-    ? JSON.parse(localStorage.getItem(book.isbn))
-    : book;
+const fillMarcResponse = (book) => {
+  messageElement.innerHTML = "";
+  formResponse.style.display = "none";
+  responseMarcCode.style.display = "flex";
+
+  marcCode.style.display = "flex";
   marcCode.innerHTML = "";
-  marcCode.innerText = JSON.stringify(bookInfo);
+  marcCode.innerText = JSON.stringify(book);
 };
