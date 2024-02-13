@@ -9,6 +9,8 @@ import { parseBookFieldsToForm, parseBookFromApiToForm } from "./cutter.js";
 
 const inputSearch = document.getElementById("isbn");
 const buttonsIsbn = document.getElementById("isbn-list").children;
+const fieldCdd082 = document.getElementById("082-0");
+const fieldCdd090 = document.getElementById("090-0");
 
 export const findBooksByIsbn = async (event) => {
   event.preventDefault();
@@ -47,6 +49,7 @@ export const setButtonsClickEvent = (bookInfo) => {
       if (event.currentTarget.id === bookInfo.isbn) {
         localStorage.setItem("currentId", bookInfo.isbn);
         renderResponse(bookInfo);
+        setSelectValue();
       }
     });
   });
@@ -55,23 +58,26 @@ export const setButtonsClickEvent = (bookInfo) => {
 export const updateForm = async (event) => {
   event.preventDefault();
   const form = event.target;
-  const fields = form.querySelectorAll("input");
+  const fields = form.querySelectorAll(".field-content");
 
   const values = parseBookFieldsToForm(fields);
   localStorage.setItem(values.isbn, JSON.stringify(values));
-  renderForm(values);
+  renderResponse(values);
 };
 
 export const copyContent = async (event) => {
   const button = event.currentTarget;
   const text = button.innerText;
-  const fieldValue = button.parentElement.querySelector("input");
+  const fieldValue = button.parentElement.querySelector(".field-content");
   const codeValue = button.parentElement.querySelector("pre code");
 
   button.innerText = "Copiando...";
 
   if (fieldValue) {
+    console.log(fieldValue);
     await navigator.clipboard.writeText(fieldValue.value);
+  } else {
+    button.parentElement.children;
   }
 
   if (codeValue) {
@@ -81,4 +87,50 @@ export const copyContent = async (event) => {
   setTimeout(() => {
     button.innerText = text;
   }, 1000);
+};
+
+export const toggleView = (event) => {
+  const input = event.currentTarget;
+  const label = input.parentElement;
+
+  if (input.checked) {
+    formResponse.style.display = "none";
+    marcCode.style.display = "flex";
+    localStorage.setItem("isMarkView", true);
+    label.querySelector("span").innerText = "Marc";
+  } else {
+    formResponse.style.display = "block";
+    marcCode.style.display = "none";
+    localStorage.removeItem("isMarkView");
+    label.querySelector("span").innerText = "Formulário";
+  }
+  renderResponse();
+};
+
+export const getCurrentBookStored = () => {
+  const currentId = localStorage.getItem("currentId");
+  console.log(currentId);
+  if (currentId) {
+    return JSON.parse(localStorage.getItem(currentId));
+  }
+
+  return false;
+};
+
+export const setSelectValue = () => {
+  [fieldCdd082, fieldCdd090].forEach((field) => {
+    const [boxId, position] = field.id.split("-");
+    const currentBookStored = getCurrentBookStored();
+
+    if (currentBookStored) {
+      const options = field.children;
+      // console.log(currentBookStored[boxId][position]);
+      Object.values(options).forEach((option) => {
+        console.log(option.value, "->", currentBookStored[boxId][position]);
+        if (option.value === currentBookStored[boxId][position]) {
+          field.selected = true;
+        }
+      });
+    }
+  });
 };

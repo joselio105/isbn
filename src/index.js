@@ -2,6 +2,8 @@ import {
   copyContent,
   findBooksByIsbn,
   setButtonsClickEvent,
+  setSelectValue,
+  toggleView,
   updateForm,
 } from "./utils/handlers.js";
 import {
@@ -18,6 +20,8 @@ window.addEventListener("load", async () => {
   const buttonMarcCode = marcCode.querySelector(".button-copy");
   const nav = document.getElementById("nav-main");
   const buttonToggle = document.getElementById("is-marc");
+  const fieldCdd082 = document.getElementById("082-0");
+  const fieldCdd090 = document.getElementById("090-0");
 
   const inputSearch = document.getElementById("isbn");
   inputSearch.value = "9788565358668 123 9788598486130 978-8544001516";
@@ -48,21 +52,17 @@ window.addEventListener("load", async () => {
   buttonMarcCode.addEventListener("click", copyContent);
 
   buttonToggle.checked = Boolean(localStorage.getItem("isMarkView"));
-  buttonToggle.addEventListener("click", (event) => {
-    const input = event.currentTarget;
-    const label = input.parentElement;
+  buttonToggle.addEventListener("click", toggleView);
 
-    if (input.checked) {
-      formResponse.style.display = "none";
-      marcCode.style.display = "flex";
-      localStorage.setItem("isMarkView", true);
-      label.querySelector("span").innerText = "Marc";
-    } else {
-      formResponse.style.display = "block";
-      marcCode.style.display = "none";
-      localStorage.removeItem("isMarkView");
-      label.querySelector("span").innerText = "Formulário";
-    }
-    renderResponse();
+  setSelectValue();
+
+  fieldCdd082.addEventListener("change", (event) => {
+    const field = event.currentTarget;
+    fieldCdd090.value = field.value;
+  });
+
+  fieldCdd090.addEventListener("change", (event) => {
+    const field = event.currentTarget;
+    fieldCdd082.value = field.value;
   });
 });

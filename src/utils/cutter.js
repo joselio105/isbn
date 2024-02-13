@@ -69,12 +69,7 @@ export const parseBookFieldsToForm = (fields) => {
   });
   values.id = values["082"][1];
   values.isbn = values["082"][2];
-  if (values["082"][0].length > 0) {
-    values["090"][0] = values["082"][0];
-  }
-  if (values["090"][0].length > 0) {
-    values["082"][0] = values["090"][0];
-  }
+
   if (values["100"][0].length > 0) {
     values["090"][1] = getCutterCode(values[100][0], values[245][0]);
   }
