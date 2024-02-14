@@ -9,6 +9,7 @@ import { parseBookFieldsToForm, parseBookFromApiToForm } from "./cutter.js";
 
 const inputSearch = document.getElementById("isbn");
 const buttonsIsbn = document.getElementById("isbn-list").children;
+const fieldIsbn = document.getElementById("082-2");
 const fieldCdd082 = document.getElementById("082-0");
 const fieldCdd090 = document.getElementById("090-0");
 
@@ -60,13 +61,19 @@ export const updateForm = async (event) => {
   const form = event.target;
   const fields = form.querySelectorAll(".field-content");
 
-  const values = parseBookFieldsToForm(fields);
-  localStorage.setItem(values.isbn, JSON.stringify(values));
-  renderResponse(values);
+  if (fieldCdd082.value.length === 0) {
+    alert("É necessário definir um tema para o livro");
+  } else {
+    const values = parseBookFieldsToForm(fields);
+    localStorage.setItem(values.isbn, JSON.stringify(values));
+    renderResponse(values);
+    alert("Dados atualizados");
+  }
 };
 
 export const copyContent = async (event) => {
   const button = event.currentTarget;
+  console.log(button);
   const text = button.innerText;
   const fieldValue = button.parentElement.querySelector(".field-content");
   const codeValue = button.parentElement.querySelector("pre code");
@@ -74,7 +81,6 @@ export const copyContent = async (event) => {
   button.innerText = "Copiando...";
 
   if (fieldValue) {
-    console.log(fieldValue);
     await navigator.clipboard.writeText(fieldValue.value);
   } else {
     button.parentElement.children;
@@ -108,8 +114,8 @@ export const toggleView = (event) => {
 };
 
 export const getCurrentBookStored = () => {
-  const currentId = localStorage.getItem("currentId");
-  console.log(currentId);
+  const currentId = fieldIsbn.value;
+
   if (currentId) {
     return JSON.parse(localStorage.getItem(currentId));
   }
@@ -123,14 +129,7 @@ export const setSelectValue = () => {
     const currentBookStored = getCurrentBookStored();
 
     if (currentBookStored) {
-      const options = field.children;
-      // console.log(currentBookStored[boxId][position]);
-      Object.values(options).forEach((option) => {
-        console.log(option.value, "->", currentBookStored[boxId][position]);
-        if (option.value === currentBookStored[boxId][position]) {
-          field.selected = true;
-        }
-      });
+      field.value = currentBookStored[boxId][position];
     }
   });
 };

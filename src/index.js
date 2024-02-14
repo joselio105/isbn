@@ -17,6 +17,7 @@ window.addEventListener("load", async () => {
   const formResponse = document.getElementById("form-result");
   const buttonClean = document.getElementById("button-clean");
   const marcCode = document.getElementById("marc-code");
+  const buttonsCopy = document.querySelectorAll(".button-copy");
   const buttonMarcCode = marcCode.querySelector(".button-copy");
   const nav = document.getElementById("nav-main");
   const buttonToggle = document.getElementById("is-marc");
@@ -47,6 +48,10 @@ window.addEventListener("load", async () => {
 
   buttonClean.addEventListener("click", async () => {
     resetRender();
+  });
+
+  Object.values(buttonsCopy).forEach((button) => {
+    button.addEventListener("click", copyContent);
   });
 
   buttonMarcCode.addEventListener("click", copyContent);
