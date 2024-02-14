@@ -7,6 +7,8 @@ import {
 import { getBookInfo } from "./api.js";
 import { parseBookFieldsToForm, parseBookFromApiToForm } from "./cutter.js";
 
+const formResponse = document.getElementById("form-result");
+const marcCode = document.getElementById("marc-code");
 const inputSearch = document.getElementById("isbn");
 const buttonsIsbn = document.getElementById("isbn-list").children;
 const fieldIsbn = document.getElementById("082-2");
