@@ -17,6 +17,7 @@ export const resetRender = () => {
   localStorage.clear();
   nav.style.display = "none";
   formSearch.style.display = "block";
+  responseWrapper.parentElement.style.display = "none";
   responseWrapper.style.display = "none";
   menu.innerHTML = "";
 };
@@ -52,7 +53,6 @@ export const renderResponse = () => {
   const isMarcCode = localStorage.getItem("isMarkView") ?? false;
   const currentId = localStorage.getItem("currentId");
   const bookInfo = JSON.parse(localStorage.getItem(currentId));
-
   titleResponse.innerText = `ISBN: ${bookInfo.isbn}`;
 
   bookInfo.message
@@ -112,6 +112,42 @@ const fillMarcResponse = (book) => {
   responseMarcCode.style.display = "flex";
 
   marcCode.style.display = "flex";
-  marcCode.innerHTML = "";
-  marcCode.innerText = JSON.stringify(book);
+  book["082"] = [book["082"][0]];
+  // marcCode.innerHTML = "";
+  marcCode.innerText = `005 ${getTime()}\n020 ${book.isbn}${
+    getCode(book, "082").length > 0 ? `\n082 __${getCode(book, "082")}` : ""
+  }${getCode(book, "090").length > 0 ? `\n090 __${getCode(book, "090")}` : ""}${
+    getCode(book, "100").length > 0 ? `\n100 __${getCode(book, "100")}` : ""
+  }${getCode(book, "245").length > 0 ? `\n245 __${getCode(book, "245")}` : ""}${
+    getCode(book, "260").length > 0 ? `\n260 __${getCode(book, "260")}` : ""
+  }${getCode(book, "300").length > 0 ? `\n300 __${getCode(book, "300")}` : ""}${
+    getCode(book, "650").length > 0 ? `\n650 __${getCode(book, "650")}` : ""
+  }
+  `;
+};
+
+const getCode = (book, code) => {
+  const response = [];
+  const postions = ["a", "b", "c"];
+
+  book[code].forEach((codePart, key) => {
+    if (codePart.length > 0) {
+      response.push(`|${postions[key]}${codePart}`);
+    }
+  });
+
+  return response.join("");
+};
+
+const getTime = () => {
+  const dataObject = new Date();
+  const year = String(dataObject.getFullYear()).padStart(2, "0");
+  const month = String(dataObject.getMonth()).padStart(2, "0");
+  const day = String(dataObject.getDate()).padStart(2, "0");
+  const hour = String(dataObject.getHours()).padStart(2, "0");
+  const minute = String(dataObject.getMinutes()).padStart(2, "0");
+  const second = String(dataObject.getSeconds()).padStart(2, "0");
+  const milisecond = dataObject.getMilliseconds();
+
+  return `${year}${month}${day}${hour}${minute}${second}.${milisecond}`;
 };

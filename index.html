@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,37 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./styles/vars.css" />
     <link rel="stylesheet" href="./styles/settings.css" />
     <link rel="stylesheet" href="./styles/main.css" />
-    <script src="./src/index.js"  type="module"></script>
+    <script src="./src/index.js" type="module"></script>
 </head>
+
 <body>
     <div id="container">
-        <header><h1>ISBN</h1></header>
+        <header>
+            <h1>ISBN</h1>
+        </header>
         <nav class="navigation" id="nav-main">
             <button id="button-clean">Nova busca</button>
             <div class="submenu">
                 <button>Resultados</button>
                 <div id="isbn-list"></div>
             </div>
-            <!-- <label>
+            <label class="toggle-button">
                 <input type="checkbox" id="is-marc" />
-                Marc
-            </label> -->
-            <div class="submenu">
-                <button>Formato</button>
-                <div>
-                    <button id="form">Formulário</button>
-                    <button id="marc">Marc</button>
-                </div>
-            </div>
+                <div class="ball"></div>
+                <span>Formulário</span>
+            </label>
         </nav>
         <main>
             <form id="search-form">
                 <div class="form-input">
                     <label for="isbn">ISBN</label>
-                    <textarea name="isbn" id="isbn" required placeholder="Digite o(s) números(s) do ISBN da publicação"></textarea>
+                    <textarea name="isbn" id="isbn" required
+                        placeholder="Digite o(s) números(s) do ISBN da publicação"></textarea>
                 </div>
                 <footer>
                     <button type="submit">Pesquisar</button>
@@ -46,7 +46,7 @@
             </form>
             <div id="response">
                 <h2>Resultado</h2>
-                
+
                 <div class="wrapper">
                     <strong id="title-result" class="title"></strong>
                     <div id="marc-code">
@@ -77,32 +77,27 @@ countries.
 538 ## $a Exigência do sistema: IBM/Tandy; EGA or VGA monitor somente.
                             </code>
                         </pre>
-                        <button class="button-copy">copiar</button>
+                        <button type="button" class="button-copy">copiar</button>
                     </div>
                     <form id="form-result">
                         <div class="box">
                             <strong class="title">Classificação Decimal Dewey(082)</strong>
                             <div class="box-field">
                                 <span class="field-label">Número de Classificação</span>
-                                <input 
-                                    class="field-content" 
-                                    id="082-0"
-                                    placeholder="Número de classificação por tema (veriifcar tabela)" 
-                                    list="themes-list"
-                                >
-                                <datalist id="themes-list">
-                                    <option>Bíblia</option>
-                                    <option>Bíblia - Velho testamento</option>
-                                    <option>Bíblia -  Novo testamento</option>
-                                    <option>Doutrinas</option>
-                                    <option>Vida cristã e família</option>
-                                    <option>Igreja local e aconselhamento</option>
-                                    <option>Igreja, evangelismo e missões</option>
-                                    <option>História da igreja e clássicos</option>
-                                    <option>Criação de filhos, crianças e adolecentes</option>
-                                </datalist>
-                                <button class="button-copy">copiar</button>
-                            </div>                            
+                                <select id="082-0" class="field-content">
+                                    <option value="">Número de classificação por tema</option>
+                                    <option value="200">Bíblia</option>
+                                    <option value="221">Bíblia - Velho testamento</option>
+                                    <option value="225">Bíblia - Novo testamento</option>
+                                    <option value="230">Doutrinas</option>
+                                    <option value="240">Vida cristã e família</option>
+                                    <option value="250">Igreja local e aconselhamento</option>
+                                    <option value="260">Igreja, evangelismo e missões</option>
+                                    <option value="270">História da igreja e clássicos</option>
+                                    <option value="640">Criação de filhos, crianças e adolecentes</option>
+                                </select>
+                                <button type="button" class="button-copy">copiar</button>
+                            </div>
                             <div class="box-field">
                                 <span class="field-label"></span>
                                 <input class="field-content" id="082-1" type="hidden">
@@ -116,54 +111,51 @@ countries.
                             <strong class="title">Número de chamada - Localização(090)</strong>
                             <div class="box-field">
                                 <span class="field-label">Classificação</span>
-                                <input 
-                                    class="field-content" 
-                                    id="090-0"
-                                    placeholder="Número de classificação por tema (veriifcar tabela)" 
-                                    list="themes-list"
-                                >
-                                <datalist id="themes-list">
-                                    <option>Bíblia</option>
-                                    <option>Bíblia - Velho testamento</option>
-                                    <option>Bíblia -  Novo testamento</option>
-                                    <option>Doutrinas</option>
-                                    <option>Vida cristã e família</option>
-                                    <option>Igreja local e aconselhamento</option>
-                                    <option>Igreja, evangelismo e missões</option>
-                                    <option>História da igreja e clássicos</option>
-                                    <option>Criação de filhos, crianças e adolecentes</option>
-                                </datalist>
-                                <button class="button-copy">copiar</button>
+                                <select id="090-0" class="field-content">
+                                    <option value="">Número de classificação por tema</option>
+                                    <option value="200">Bíblia</option>
+                                    <option value="221">Bíblia - Velho testamento</option>
+                                    <option value="225">Bíblia - Novo testamento</option>
+                                    <option value="230">Doutrinas</option>
+                                    <option value="240">Vida cristã e família</option>
+                                    <option value="250">Igreja local e aconselhamento</option>
+                                    <option value="260">Igreja, evangelismo e missões</option>
+                                    <option value="270">História da igreja e clássicos</option>
+                                    <option value="640">Criação de filhos, crianças e adolecentes</option>
+                                </select>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                             <div class="box-field">
-                                    <span class="field-label">Código do autor</span>
-                                    <input class="field-content" id="090-1" placeholder="Código segundo a tabela Cutter(?)">
-                                    <button class="button-copy">copiar</button>
-                                </div>
-                                <div class="box-field">
-                                    <span class="field-label">Edição - volume</span>
-                                    <input class="field-content" id="090-2" placeholder="Edição e volume...">
-                                    <button class="button-copy">copiar</button>
-                                </div>
+                                <span class="field-label">Código do autor</span>
+                                <input class="field-content" id="090-1" placeholder="Código segundo a tabela Cutter(?)">
+                                <button type="button" class="button-copy">copiar</button>
+                            </div>
+                            <div class="box-field">
+                                <span class="field-label">Edição - volume</span>
+                                <input class="field-content" id="090-2" placeholder="Edição e volume...">
+                                <button type="button" class="button-copy">copiar</button>
+                            </div>
                         </div>
                         <div class="box">
                             <strong class="title">Autor - Nome pessoal(100)</strong>
                             <div class="box-field">
                                 <span class="field-label">Sobrenome e/ou prenome do autor</span>
                                 <input class="field-content" id="100-0" placeholder="Sobrenome do autor">
-                                <button class="button-copy">copiar</button>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                         </div>
                         <div class="box">
                             <strong class="title">Título principal(245)</strong>
                             <div class="box-field">
                                 <span class="field-label">Título principal</span>
-                                <input class="field-content" id="245-0"Manual do arquiteto descalço" placeholder="Título do livro">
-                                <button class="button-copy">copiar</button></div>
+                                <input class="field-content" id="245-0" Manual do arquiteto descalço"
+                                    placeholder="Título do livro">
+                                <button type="button" class="button-copy">copiar</button>
+                            </div>
                             <div class="box-field">
                                 <span class="field-label">Títulos paralelos/subtítulos</span>
                                 <input class="field-content" id="245-1" placeholder="Subítulo do livro">
-                                <button class="button-copy">copiar</button>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                         </div>
                         <div class="box">
@@ -171,25 +163,26 @@ countries.
                             <div class="box-field">
                                 <span class="field-label">Local de publicação, distribuição, etc.</span>
                                 <input class="field-content" id="260-0" placeholder="Local...">
-                                <button class="button-copy">copiar</button>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                             <div class="box-field">
                                 <span class="field-label">Nome do editor, publicador, etc.</span>
                                 <input class="field-content" id="260-1" placeholder="Editora...">
-                                <button class="button-copy">copiar</button>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                             <div class="box-field">
                                 <span class="field-label">Data de publicação, distribuição, etc.</span>
                                 <input class="field-content" id="260-2" placeholder="Ano...">
-                                <button class="button-copy">copiar</button>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                         </div>
                         <div class="box">
                             <strong class="title">Descrição física(300)</strong>
                             <div class="box-field">
                                 <span class="field-label">Número de volumes e/ou paginação</span>
-                                <input class="field-content" id="300-0" placeholder="Número de páginas..." type="number" step="1">
-                                <button class="button-copy">copiar</button>
+                                <input class="field-content" id="300-0" placeholder="Número de páginas..." type="number"
+                                    step="1">
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                         </div>
                         <div class="box">
@@ -197,15 +190,16 @@ countries.
                             <div class="box-field">
                                 <span class="field-label">Assunto tópico</span>
                                 <input class="field-content" id="650-0" placeholder="Assuntos...">
-                                <button class="button-copy">copiar</button>
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                         </div>
                         <div class="box">
                             <strong class="title">Exemplares Automáticos</strong>
                             <div class="box-field">
                                 <span class="field-label">Número de Exemplares</span>
-                                <input class="field-content" id="999-0" placeholder="Número de exemplares..." type="number" min="1" step="1">
-                                <button class="button-copy">copiar</button>
+                                <input class="field-content" id="999-0" placeholder="Número de exemplares..."
+                                    type="number" min="1" step="1">
+                                <button type="button" class="button-copy">copiar</button>
                             </div>
                         </div>
                         <footer>
@@ -218,4 +212,5 @@ countries.
         </main>
     </div>
 </body>
+
 </html>
