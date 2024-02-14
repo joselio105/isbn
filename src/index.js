@@ -28,18 +28,19 @@ window.addEventListener("load", async () => {
   inputSearch.value = "9788565358668 123 9788598486130 978-8544001516";
 
   if (localStorage.length > 0) {
-    Object.keys(localStorage).forEach((isbn) => {
-      if (isbn !== "isMarcView" && isbn != "currentId") {
-        renderMenu(isbn);
-      }
+    localStorage.clear();
+    // Object.keys(localStorage).forEach((isbn) => {
+    //   if (isbn !== "isMarcView" && isbn != "currentId") {
+    //     renderMenu(isbn);
+    //   }
 
-      setButtonsClickEvent(JSON.parse(localStorage.getItem(isbn)));
-    });
-    formSearch.style.display = "none";
-    nav.style.display = "flex";
-    formResponse.parentElement.parentElement.style.display = "block";
+    //   setButtonsClickEvent(JSON.parse(localStorage.getItem(isbn)));
+    // });
+    // formSearch.style.display = "none";
+    // nav.style.display = "flex";
+    // formResponse.parentElement.parentElement.style.display = "block";
 
-    renderResponse();
+    // renderResponse();
   }
 
   formSearch.addEventListener("submit", findBooksByIsbn);
