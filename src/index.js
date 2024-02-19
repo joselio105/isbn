@@ -29,18 +29,6 @@ window.addEventListener("load", async () => {
 
   if (localStorage.length > 0) {
     localStorage.clear();
-    // Object.keys(localStorage).forEach((isbn) => {
-    //   if (isbn !== "isMarcView" && isbn != "currentId") {
-    //     renderMenu(isbn);
-    //   }
-
-    //   setButtonsClickEvent(JSON.parse(localStorage.getItem(isbn)));
-    // });
-    // formSearch.style.display = "none";
-    // nav.style.display = "flex";
-    // formResponse.parentElement.parentElement.style.display = "block";
-
-    // renderResponse();
   }
 
   formSearch.addEventListener("submit", findBooksByIsbn);
