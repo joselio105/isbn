@@ -1,49 +1,41 @@
 import {
   clearLoading,
+  fillMarcResponse,
   renderLoading,
-  renderMenu,
   renderResponse,
 } from "../render/interfaces.js";
 import { getBookInfo } from "./api.js";
 import { parseBookFieldsToForm, parseBookFromApiToForm } from "./cutter.js";
 
 const formResponse = document.getElementById("form-result");
+const mainMenu = document.getElementById("nav-main");
 const marcCode = document.getElementById("marc-code");
 const inputSearch = document.getElementById("isbn");
-const buttonsIsbn = document.getElementById("isbn-list").children;
 const fieldIsbn = document.getElementById("082-2");
 const fieldCdd082 = document.getElementById("082-0");
 const fieldCdd090 = document.getElementById("090-0");
+const fieldauthor100 = document.getElementById("100-0");
 
 export const findBooksByIsbn = async (event) => {
   event.preventDefault();
-  const isbnList = inputSearch.value.split(" ");
+  const isbn = inputSearch.value;
   renderLoading();
-  await isbnList.forEach(async (isbn, key) => {
-    renderMenu(isbn.replaceAll("-", ""));
-    getBookInfo(isbn)
-      .then(async (book) => {
-        const bookInfo = parseBookFromApiToForm(
-          book,
-          key,
-          isbn.replaceAll("-", "")
-        );
+  getBookInfo(isbn)
+    .then(async (book) => {
+      const bookInfo = parseBookFromApiToForm(book, isbn.replaceAll("-", ""));
 
-        localStorage.setItem(bookInfo.isbn, JSON.stringify(bookInfo));
-        setButtonsClickEvent(bookInfo);
-        fillFormWithLastBook(key, bookInfo);
-      })
-      .finally(() => {
-        clearLoading();
-      });
-  });
+      localStorage.setItem(bookInfo.isbn, JSON.stringify(bookInfo));
+      fillFormWithLastBook(bookInfo);
+      mainMenu.style.display = "flex";
+    })
+    .finally(() => {
+      clearLoading();
+    });
 };
 
-const fillFormWithLastBook = (key, bookInfo) => {
-  if (key === 0) {
-    localStorage.setItem("currentId", bookInfo.isbn);
-    renderResponse(bookInfo);
-  }
+const fillFormWithLastBook = (bookInfo) => {
+  localStorage.setItem("currentId", bookInfo.isbn);
+  renderResponse(bookInfo);
 };
 
 export const setButtonsClickEvent = (bookInfo) => {
@@ -67,15 +59,34 @@ export const updateForm = async (event) => {
     alert("É necessário definir um tema para o livro");
   } else {
     const values = parseBookFieldsToForm(fields);
-    localStorage.setItem(values.isbn, JSON.stringify(values));
     renderResponse(values);
     alert("Dados atualizados");
   }
 };
 
+export const forceUpdateForm = () => {
+  const fields = formResponse.querySelectorAll(".field-content");
+
+  if (fieldCdd082.value.length === 0) {
+    fieldCdd082.classList.add("fail");
+    throw new Error("É necessário definir um tema para o livro");
+  }
+  if (fieldCdd090.value.length === 0) {
+    fieldCdd090.classList.add("fail");
+    throw new Error("É necessário definir um tema para o livro");
+  }
+  if (fieldauthor100.value.length === 0) {
+    fieldauthor100.classList.add("fail");
+    throw new Error("É necessário definir um tema para o livro");
+  }
+
+  const values = parseBookFieldsToForm(fields);
+  return values;
+};
+
 export const copyContent = async (event) => {
   const button = event.currentTarget;
-  console.log(button);
+
   const text = button.innerText;
   const fieldValue = button.parentElement.querySelector(".field-content");
   const codeValue = button.parentElement.querySelector("pre code");
@@ -102,17 +113,22 @@ export const toggleView = (event) => {
   const label = input.parentElement;
 
   if (input.checked) {
-    formResponse.style.display = "none";
-    marcCode.style.display = "flex";
-    localStorage.setItem("isMarkView", true);
     label.querySelector("span").innerText = "Marc";
+    try {
+      const values = forceUpdateForm();
+      formResponse.style.display = "none";
+      marcCode.style.display = "flex";
+      localStorage.setItem("isMarkView", true);
+      fillMarcResponse(values);
+    } catch (error) {
+      alert(error);
+    }
   } else {
     formResponse.style.display = "block";
     marcCode.style.display = "none";
     localStorage.removeItem("isMarkView");
     label.querySelector("span").innerText = "Formulário";
   }
-  renderResponse();
 };
 
 export const getCurrentBookStored = () => {

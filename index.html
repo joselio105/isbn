@@ -23,10 +23,6 @@
         </header>
         <nav class="navigation" id="nav-main">
             <button id="button-clean">Nova busca</button>
-            <div class="submenu">
-                <button>Resultados</button>
-                <div id="isbn-list"></div>
-            </div>
             <label class="toggle-button">
                 <input type="checkbox" id="is-marc" />
                 <div class="ball"></div>
@@ -35,14 +31,15 @@
         </nav>
         <main>
             <form id="search-form">
-                <div class="form-input">
-                    <label for="isbn">ISBN</label>
-                    <textarea name="isbn" id="isbn" required
-                        placeholder="Digite o(s) números(s) do ISBN da publicação"></textarea>
-                </div>
-                <footer>
-                    <button type="submit">Pesquisar</button>
-                </footer>
+                <label for="isbn">ISBN</label>
+                <input 
+                    class="search-input"
+                    name="isbn" 
+                    id="isbn" 
+                    required
+                    placeholder="Digite o(s) números(s) do ISBN da publicação" 
+                />
+                <button type="submit">Pesquisar</button>
             </form>
             <div id="response">
                 <h2>Resultado</h2>
@@ -51,31 +48,7 @@
                     <strong id="title-result" class="title"></strong>
                     <div id="marc-code">
                         <pre>
-                            <code>
-LÍDER *****cam##22*****7a#4500 LIVRO
-001 <número de controle>
-003 <identificador do número de controle>
-005 19921113071152.5
-008 870102s1962####at############000#0#eng#d
-040 ## $a <código da instituiçãi> $c <código da instituição>
-100 1# $a Kelleher, James M.
-245 10 $a Roman fever : $b a story of the struggle by the Catholic people of New South Wales to remedy the injustice caused by the Education Acts of 1866 and 1880--an observer's opinion of the causes which so far have rendered that struggle in vain / $c by James M. Kelleher.
-260 ## $a Surrey Hills, N.S.W. : $b Catholic Press Newspaper Co., $c [1962?]
-300 ## $a 139 p. ; $c 16 cm
-
-LÍDER *****nmm##22*****7a#4500 ARQUIVO DE COMPUTADOR
-001 <número de controle>
-003 <identificador do número de controle>
-005 19930729093320.6
-008 930729s1989####azu####|###b|#####0#eng#d
-040 ## $a <código da instituição> $c <código da instituição>
-245 00 $a PC nations $h [recurso eletrônico] : $b flags and national anthems of 175
-countries.
-256 ## $a Programa eletrônico.
-260 ## $a Tempe, Ariz. : $b PC Globe, $c c1989.
-300 ## $a 2 discos e computador : $b color. ; $c 5 1/4 pol.
-538 ## $a Exigência do sistema: IBM/Tandy; EGA or VGA monitor somente.
-                            </code>
+                            <code></code>
                         </pre>
                         <button type="button" class="button-copy">copiar</button>
                     </div>
@@ -101,10 +74,6 @@ countries.
                             <div class="box-field">
                                 <span class="field-label"></span>
                                 <input class="field-content" id="082-1" type="hidden">
-                            </div>
-                            <div class="box-field">
-                                <span class="field-label"></span>
-                                <input class="field-content" id="082-2" type="hidden">
                             </div>
                         </div>
                         <div class="box">

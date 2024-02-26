@@ -97,11 +97,14 @@
     display: none;
 }
 
-#container main form .form-input{
+#container main form{
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-#container main form .form-input label{
+#container main form label{
     position: absolute;
     top: -8px;
     left: 16px;
@@ -111,9 +114,8 @@
     padding: 0 4px;
 }
 
-#container main form .form-input textarea{
-    min-height: 160px;
-    width: 100%;
+#container main form .search-input{
+    flex-grow: 1;
     padding: 12px;
     border: 1px solid var(--color-border);
     border-radius: 4px;
@@ -122,20 +124,14 @@
     font-weight: 400;
 }
 
-#container main form .form-input textarea::placeholder{
+#container main form .search-input::placeholder{
     color: var(--color-text-light);    
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     font-size: 12px;
 }
 
-#container main form footer{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#container main form footer button,
+#container main form button,
 #container nav .submenu>button,
 #container nav>button,
 #container main #response .wrapper .box .box-field .button-copy,
@@ -149,7 +145,7 @@
     transition: color .3s;
 }
 
-#container main form footer button:hover,
+#container main form button:hover,
 #container nav .submenu>button:hover,
 #container nav>button:hover,
 #container main #response .wrapper .box .box-field .button-copy:hover,
@@ -180,7 +176,7 @@
 
 #container main #response .wrapper{
     padding: 0 12px;
-    border-bottom: 2px solid var(--color-border-dark);
+    /* border-top: 2px solid var(--color-border-dark); */
     margin-bottom: 16px;
     display: none;
     flex-direction: column;
@@ -212,6 +208,10 @@
     background-color: var(--color-surface);
     font-weight: 700;
     padding: 0 4px;
+}
+
+#container main #response .wrapper .fail{
+    background-color: rgba(255, 0, 0, .7);
 }
 
 #container main #response .wrapper .box .box-field{
