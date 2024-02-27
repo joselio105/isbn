@@ -30,23 +30,21 @@ export const parseBookFromApiToForm = (
     subjects,
     message,
   },
-  key,
   isbn
 ) => {
   if (message) {
     return {
       message,
       isbn,
-      key,
     };
   }
   const lastname = formatLastName(authors[0]);
 
   const bookInfo = {
-    id: key + 1,
+    id: isbn,
     isbn,
     message,
-    "082": ["", key + 1, isbn],
+    "082": ["", isbn],
     "090": ["", getCutterCode(lastname, title), ""],
     100: [lastname],
     245: [title, subtitle ?? ""],
@@ -67,8 +65,7 @@ export const parseBookFieldsToForm = (fields) => {
 
     values[boxId].push(field.value);
   });
-  values.id = values["082"][1];
-  values.isbn = values["082"][2];
+  values.isbn = values["082"][1];
 
   if (values["100"][0].length > 0) {
     values["090"][1] = getCutterCode(values[100][0], values[245][0]);

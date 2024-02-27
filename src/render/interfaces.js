@@ -16,14 +16,18 @@ const messageElement = document.getElementById("error-message");
 export const resetRender = () => {
   localStorage.clear();
   nav.style.display = "none";
-  formSearch.style.display = "block";
+  formSearch.style.display = "flex";
   responseWrapper.parentElement.style.display = "none";
   responseWrapper.style.display = "none";
   menu.innerHTML = "";
 };
 
 export const renderLoading = () => {
+  responseWrapper.parentElement.style.display = "block";
   responseWrapper.style.display = "block";
+  Object.values(responseWrapper.children).forEach(
+    (child) => (child.style.display = "none")
+  );
   responseWrapper.appendChild(createLoading());
 };
 
@@ -35,25 +39,13 @@ export const clearLoading = () => {
   }
 };
 
-export const renderMenu = (isbn) => {
-  nav.style.display = "flex";
-
-  const button = createElement("button", {
-    textContent: isbn,
-    id: isbn,
-  });
-  menu.appendChild(button);
-};
-
-export const renderResponse = () => {
+export const renderResponse = (bookInfo) => {
   responseWrapper.parentElement.style.display = "block";
   responseWrapper.style.display = "flex";
   formSearch.style.display = "none";
 
   const isMarcCode = localStorage.getItem("isMarkView") ?? false;
-  const currentId = localStorage.getItem("currentId");
-  const bookInfo = JSON.parse(localStorage.getItem(currentId));
-  titleResponse.innerText = `ISBN: ${bookInfo.isbn}`;
+  titleResponse.innerText = `ISBN: ${bookInfo["082"][1]}`;
 
   bookInfo.message
     ? renderErrorMessage(bookInfo)
@@ -62,7 +54,7 @@ export const renderResponse = () => {
     : fillFormResponse(bookInfo);
 };
 
-const fillFormResponse = (book) => {
+export const fillFormResponse = (book) => {
   formResponse.style.display = "block";
   responseMarcCode.style.display = "none";
   messageElement.innerHTML = "";
@@ -106,14 +98,14 @@ const renderErrorMessage = (book) => {
   }
 };
 
-const fillMarcResponse = (book) => {
+export const fillMarcResponse = (book) => {
   messageElement.innerHTML = "";
   formResponse.style.display = "none";
   responseMarcCode.style.display = "flex";
 
   marcCode.style.display = "flex";
+
   book["082"] = [book["082"][0]];
-  // marcCode.innerHTML = "";
   marcCode.innerText = `005 ${getTime()}\n020 ${book.isbn}${
     getCode(book, "082").length > 0 ? `\n082 __${getCode(book, "082")}` : ""
   }${getCode(book, "090").length > 0 ? `\n090 __${getCode(book, "090")}` : ""}${
