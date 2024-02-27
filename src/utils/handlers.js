@@ -1,6 +1,7 @@
 import {
   clearLoading,
   fillMarcResponse,
+  renderErrorMessage,
   renderLoading,
   renderResponse,
 } from "../render/interfaces.js";
@@ -24,11 +25,14 @@ export const findBooksByIsbn = async (event) => {
     .then(async (book) => {
       const bookInfo = parseBookFromApiToForm(book, isbn.replaceAll("-", ""));
 
-      localStorage.setItem(bookInfo.isbn, JSON.stringify(bookInfo));
-      fillFormWithLastBook(bookInfo);
-      mainMenu.style.display = "flex";
+      if (bookInfo.message) {
+        renderErrorMessage(bookInfo);
+      } else {
+        fillFormWithLastBook(bookInfo);
+      }
     })
     .finally(() => {
+      mainMenu.style.display = "flex";
       clearLoading();
     });
 };
@@ -111,23 +115,25 @@ export const copyContent = async (event) => {
 export const toggleView = (event) => {
   const input = event.currentTarget;
   const label = input.parentElement;
+  console.log(input.checked);
+
+  localStorage.setItem("isMarkView", input.checked);
+  label.querySelector("span").innerText = input.checked ? "Marc" : "Formulário";
 
   if (input.checked) {
-    label.querySelector("span").innerText = "Marc";
     try {
       const values = forceUpdateForm();
       formResponse.style.display = "none";
       marcCode.style.display = "flex";
-      localStorage.setItem("isMarkView", true);
       fillMarcResponse(values);
     } catch (error) {
+      input.checked = false;
       alert(error);
     }
   } else {
     formResponse.style.display = "block";
     marcCode.style.display = "none";
     localStorage.removeItem("isMarkView");
-    label.querySelector("span").innerText = "Formulário";
   }
 };
 

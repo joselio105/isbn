@@ -85,16 +85,18 @@ export const fillFormResponse = (book) => {
   });
 };
 
-const renderErrorMessage = (book) => {
+export const renderErrorMessage = (book) => {
   formResponse.style.display = "none";
+  responseMarcCode.parentElement.style.display = "block";
   responseMarcCode.style.display = "none";
 
   if (messageElement) {
+    messageElement.style.display = "flex";
     messageElement.innerText = book.message;
   } else {
     const message = createErrorMessage(book);
     message.style.display = "flex";
-    responseWrapper.appendChild(message);
+    responseWrapper.parentElement.appendChild(message);
   }
 };
 
