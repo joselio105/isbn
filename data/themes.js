@@ -32,7 +32,19 @@ export const themes = [
     name: "História da igreja e clássicos",
   },
   {
+    code: "28.5",
+    name: "Literatura infantil",
+  },
+  {
+    code: 370,
+    name: "Ensino e didática",
+  },
+  {
     code: 640,
     name: "Criação de filhos, crianças e adolecentes",
+  },
+  {
+    code: 650,
+    name: "Liderança e gestão",
   },
 ];
