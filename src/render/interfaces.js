@@ -86,7 +86,7 @@ export const fillFormResponse = (book) => {
 };
 
 export const renderErrorMessage = (book) => {
-  formResponse.style.display = "none";
+  formResponse.style.display = "block";
   responseMarcCode.parentElement.style.display = "block";
   responseMarcCode.style.display = "none";
 

@@ -6,6 +6,7 @@ import {
   updateForm,
 } from "./utils/handlers.js";
 import { resetRender } from "./render/interfaces.js";
+import { getCutterCode } from "./utils/cutter.js";
 
 window.addEventListener("load", async () => {
   const formSearch = document.getElementById("search-form");
@@ -17,10 +18,15 @@ window.addEventListener("load", async () => {
   const buttonToggle = document.getElementById("is-marc");
   const fieldCdd082 = document.getElementById("082-0");
   const fieldCdd090 = document.getElementById("090-0");
+  const fieldCdd0901 = document.getElementById("090-1");
+  const fieldauthor100 = document.getElementById("100-0");
+  const fieldTitle245 = document.getElementById("245-0");
 
   if (localStorage.length > 0) {
     localStorage.clear();
   }
+
+  setSelectValue();
 
   fieldCdd082.addEventListener("change", (event) => {
     const field = event.currentTarget;
@@ -30,6 +36,20 @@ window.addEventListener("load", async () => {
   fieldCdd090.addEventListener("change", (event) => {
     const field = event.currentTarget;
     fieldCdd082.value = field.value;
+  });
+
+  fieldauthor100.addEventListener("mouseleave", () => {
+    fieldCdd0901.value = getCutterCode(
+      fieldauthor100.value,
+      fieldTitle245.value
+    );
+  });
+
+  fieldTitle245.addEventListener("mouseleave", () => {
+    fieldCdd0901.value = getCutterCode(
+      fieldauthor100.value,
+      fieldTitle245.value
+    );
   });
 
   formSearch.addEventListener("submit", findBooksByIsbn);
