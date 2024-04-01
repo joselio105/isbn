@@ -22,6 +22,8 @@ window.addEventListener("load", async () => {
     localStorage.clear();
   }
 
+  setSelectValue();
+
   fieldCdd082.addEventListener("change", (event) => {
     const field = event.currentTarget;
     fieldCdd090.value = field.value;

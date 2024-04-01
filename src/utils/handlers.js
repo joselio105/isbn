@@ -7,6 +7,7 @@ import {
 } from "../render/interfaces.js";
 import { getBookInfo } from "./api.js";
 import { parseBookFieldsToForm, parseBookFromApiToForm } from "./cutter.js";
+import { themes } from "../../data/themes.js";
 
 const formResponse = document.getElementById("form-result");
 const mainMenu = document.getElementById("nav-main");
@@ -150,10 +151,17 @@ export const getCurrentBookStored = () => {
 export const setSelectValue = () => {
   [fieldCdd082, fieldCdd090].forEach((field) => {
     const [boxId, position] = field.id.split("-");
-    const currentBookStored = getCurrentBookStored();
+    themes.forEach((theme) => {
+      const option = document.createElement("option");
+      option.value = theme.code;
+      option.innerText = `(${theme.code}) ${theme.name}`;
 
-    if (currentBookStored) {
-      field.value = currentBookStored[boxId][position];
-    }
+      field.appendChild(option);
+    });
+    // const currentBookStored = getCurrentBookStored();
+
+    // if (currentBookStored) {
+    //   field.value = currentBookStored[boxId][position];
+    // }
   });
 };
