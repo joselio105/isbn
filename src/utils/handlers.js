@@ -16,7 +16,9 @@ const inputSearch = document.getElementById("isbn");
 const fieldIsbn = document.getElementById("082-2");
 const fieldCdd082 = document.getElementById("082-0");
 const fieldCdd090 = document.getElementById("090-0");
+const fieldCdd0901 = document.getElementById("090-1");
 const fieldauthor100 = document.getElementById("100-0");
+const fieldTitle245 = document.getElementById("245-0");
 
 export const findBooksByIsbn = async (event) => {
   event.preventDefault();
@@ -49,7 +51,6 @@ export const setButtonsClickEvent = (bookInfo) => {
       if (event.currentTarget.id === bookInfo.isbn) {
         localStorage.setItem("currentId", bookInfo.isbn);
         renderResponse(bookInfo);
-        setSelectValue();
       }
     });
   });
@@ -60,18 +61,27 @@ export const updateForm = async (event) => {
   const form = event.target;
   const fields = form.querySelectorAll(".field-content");
 
-  if (fieldCdd082.value.length === 0) {
-    alert("É necessário definir um tema para o livro");
-  } else {
+  try {
+    validations();
     const values = parseBookFieldsToForm(fields);
     renderResponse(values);
     alert("Dados atualizados");
+  } catch (error) {
+    window.scroll({ top: 0, behavior: "smooth" });
+    alert(error);
   }
 };
 
 export const forceUpdateForm = () => {
   const fields = formResponse.querySelectorAll(".field-content");
 
+  validations();
+  window.scroll({ top: 0, behavior: "smooth" });
+  const values = parseBookFieldsToForm(fields);
+  return values;
+};
+
+const validations = () => {
   if (fieldCdd082.value.length === 0) {
     fieldCdd082.classList.add("fail");
     throw new Error("É necessário definir um tema para o livro");
@@ -80,13 +90,20 @@ export const forceUpdateForm = () => {
     fieldCdd090.classList.add("fail");
     throw new Error("É necessário definir um tema para o livro");
   }
+  if (fieldCdd0901.value.length === 0) {
+    fieldCdd0901.classList.add("fail");
+    throw new Error(
+      "É necessário definir o código Cutter para o autor para o livro"
+    );
+  }
   if (fieldauthor100.value.length === 0) {
     fieldauthor100.classList.add("fail");
-    throw new Error("É necessário definir um tema para o livro");
+    throw new Error("É necessário definir um autor para o livro");
   }
-
-  const values = parseBookFieldsToForm(fields);
-  return values;
+  if (fieldTitle245.value.length === 0) {
+    fieldTitle245.classList.add("fail");
+    throw new Error("É necessário definir o título do livro");
+  }
 };
 
 export const copyContent = async (event) => {
@@ -116,7 +133,6 @@ export const copyContent = async (event) => {
 export const toggleView = (event) => {
   const input = event.currentTarget;
   const label = input.parentElement;
-  console.log(input.checked);
 
   localStorage.setItem("isMarkView", input.checked);
   label.querySelector("span").innerText = input.checked ? "Marc" : "Formulário";
