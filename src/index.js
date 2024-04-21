@@ -4,6 +4,7 @@ import {
   setSelectValue,
   toggleView,
   updateForm,
+  validations,
 } from "./utils/handlers.js";
 import { resetRender } from "./render/interfaces.js";
 import { getCutterCode } from "./utils/cutter.js";
@@ -31,11 +32,13 @@ window.addEventListener("load", async () => {
   fieldCdd082.addEventListener("change", (event) => {
     const field = event.currentTarget;
     fieldCdd090.value = field.value;
+    validations();
   });
 
   fieldCdd090.addEventListener("change", (event) => {
     const field = event.currentTarget;
     fieldCdd082.value = field.value;
+    validations();
   });
 
   fieldauthor100.addEventListener("mouseleave", () => {
@@ -43,6 +46,7 @@ window.addEventListener("load", async () => {
       fieldauthor100.value,
       fieldTitle245.value
     );
+    validations();
   });
 
   fieldTitle245.addEventListener("mouseleave", () => {
@@ -50,6 +54,7 @@ window.addEventListener("load", async () => {
       fieldauthor100.value,
       fieldTitle245.value
     );
+    validations();
   });
 
   formSearch.addEventListener("submit", findBooksByIsbn);

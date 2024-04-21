@@ -10,12 +10,13 @@ export const getCutterCode = (lastname, title) => {
       });
 
       const code = matches[matches.length - 1].code;
+      if (!title) {
+        throw new Error("É necessário cadastrar um título");
+      }
       return `${lastname[0].toUpperCase()}${code}${formatTitleCode(title)}`;
     }
-    return "???????";
   }
-
-  return "Sem autor definido para gerar o código";
+  throw new Error("Dados inconsistentes para gerar o código");
 };
 
 export const parseBookFromApiToForm = (
