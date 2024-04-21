@@ -81,21 +81,30 @@ export const forceUpdateForm = () => {
   return values;
 };
 
-const validations = () => {
+export const validations = () => {
   if (fieldCdd082.value.length === 0) {
     fieldCdd082.classList.add("fail");
     throw new Error("É necessário definir um tema para o livro");
+  } else {
+    fieldCdd082.classList.remove("fail");
   }
+
   if (fieldCdd090.value.length === 0) {
     fieldCdd090.classList.add("fail");
     throw new Error("É necessário definir um tema para o livro");
+  } else {
+    fieldCdd090.classList.remove("fail");
   }
+
   if (fieldCdd0901.value.length === 0) {
     fieldCdd0901.classList.add("fail");
     throw new Error(
       "É necessário definir o código Cutter para o autor para o livro"
     );
+  } else {
+    fieldCdd0901.classList.remove("fail");
   }
+
   if (fieldauthor100.value.length === 0) {
     fieldauthor100.classList.add("fail");
     throw new Error("É necessário definir um autor para o livro");
@@ -103,6 +112,8 @@ const validations = () => {
   if (fieldTitle245.value.length === 0) {
     fieldTitle245.classList.add("fail");
     throw new Error("É necessário definir o título do livro");
+  } else {
+    fieldTitle245.classList.remove("fail");
   }
 };
 

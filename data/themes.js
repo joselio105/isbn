@@ -1,6 +1,6 @@
 export const themes = [
   {
-    code: 200,
+    code: 220,
     name: "Bíblia",
   },
   {
